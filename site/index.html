@@ -13,6 +13,18 @@
   <script type="module" src="app.mjs"></script>
 </head>
 <body>
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-route" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M20 12H5M11 6l-6 6 6 6"/></symbol>
+    <symbol id="i-dash" viewBox="0 0 24 24"><path d="M7 12h10"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><path d="M9 9h11v11H9zM5 15V5a1 1 0 0 1 1-1h10"/></symbol>
+    <symbol id="i-hint" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.7.5 1.1 1.3 1.1 2.1V16h5v-.1c0-.8.4-1.6 1.1-2.1A6 6 0 0 0 12 3z"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H6v18h12V7zM14 3v4h4M12 10v7M9 14l3 3 3-3"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 4v6h6M4.6 15a8 8 0 1 0 1.9-8.3L4 10"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+    <symbol id="i-stamp" viewBox="0 0 24 24"><path d="M10 3h4v5l2 3H8l2-3zM5 11h14v4H5zM7 19h10"/></symbol>
+  </svg>
   <a class="skip-link" href="#desafio">Ir ao desafio</a>
   <header class="masthead">
     <div class="frame masthead-inner">
@@ -22,7 +34,7 @@
       </div>
       <div class="masthead-tools">
         <span class="signal-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-        <a class="kit-jump" href="#kit">Kit para o VS Code</a>
+        <a class="kit-jump" href="#kit"><svg class="icon icon-file" aria-hidden="true" focusable="false"><use href="#i-file"/></svg>Kit para o VS Code</a>
       </div>
     </div>
   </header>
@@ -46,7 +58,7 @@
           <div class="telegram">
             <div class="telegram-meta">
               <p class="eyebrow" id="cipher-label">Mensagem cifrada</p>
-              <button type="button" id="copy" class="button button-small">Copiar mensagem</button>
+              <button type="button" id="copy" class="button button-small"><svg class="icon icon-copy" aria-hidden="true" focusable="false"><use href="#i-copy"/></svg><span>Copiar mensagem</span></button>
             </div>
             <p id="ciphertext" class="ciphertext" aria-labelledby="cipher-label"></p>
             <p id="copy-status" class="copy-status sr-only" role="status"></p>
@@ -60,13 +72,13 @@
             <p id="answer-help">Cole o resultado do seu programa e preserve a pontuação. Acentos e maiúsculas são opcionais.</p>
             <textarea id="answer" rows="4" maxlength="500" spellcheck="false" autocomplete="off" aria-describedby="answer-help answer-status" required></textarea>
             <div class="answer-actions">
-              <button type="submit" id="submit" class="button button-primary">Testar resposta</button>
+              <button type="submit" id="submit" class="button button-primary"><svg class="icon icon-check" aria-hidden="true" focusable="false"><use href="#i-check"/></svg>Testar resposta</button>
               <p id="answer-status" class="answer-status" role="status"></p>
             </div>
           </form>
           <div id="review" class="review" hidden>
             <p>Este portão já foi aberto. Revise o procedimento e volte à sua rota quando quiser.</p>
-            <button type="button" id="return" class="button button-primary">Voltar ao portão atual</button>
+            <button type="button" id="return" class="button button-primary"><svg class="icon icon-back" aria-hidden="true" focusable="false"><use href="#i-back"/></svg><span>Voltar ao portão atual</span></button>
           </div>
         </article>
         <aside class="guide" aria-labelledby="guide-title">
@@ -96,8 +108,8 @@
           <h3>Próxima missão: criem a sua cifra</h3>
           <p>Agora a sua dupla inventa a regra, programa a cifra e desafia as outras equipes a desvendarem a mensagem.</p>
           <div class="completion-actions">
-            <a class="button button-primary" href="desafio-final/">Abrir o desafio final</a>
-            <button id="review-final" class="button" type="button">Revisar o último portão</button>
+            <a class="button button-primary" href="desafio-final/">Abrir o desafio final<svg class="icon icon-route" aria-hidden="true" focusable="false"><use href="#i-route"/></svg></a>
+            <button id="review-final" class="button" type="button"><svg class="icon icon-back" aria-hidden="true" focusable="false"><use href="#i-back"/></svg>Revisar o último portão</button>
           </div>
         </div>
       </section>
@@ -106,10 +118,10 @@
           <h2 id="kit-title">Kit para o VS Code</h2>
           <p>Usem os mesmos arquivos do primeiro ao último portão. Cada portão tem a sua função.</p>
           <div class="downloads" aria-label="Arquivos do kit">
-            <a href="starter/index.html" download="index.html">index.html</a>
-            <a href="starter/style.css" download="style.css">style.css</a>
-            <a href="starter/decoder.js" download="decoder.js">decoder.js</a>
-            <a href="starter/kit.js" download="kit.js">kit.js</a>
+            <a href="starter/index.html" download="index.html"><svg class="icon icon-file" aria-hidden="true" focusable="false"><use href="#i-file"/></svg>index.html</a>
+            <a href="starter/style.css" download="style.css"><svg class="icon icon-file" aria-hidden="true" focusable="false"><use href="#i-file"/></svg>style.css</a>
+            <a href="starter/decoder.js" download="decoder.js"><svg class="icon icon-file" aria-hidden="true" focusable="false"><use href="#i-file"/></svg>decoder.js</a>
+            <a href="starter/kit.js" download="kit.js"><svg class="icon icon-file" aria-hidden="true" focusable="false"><use href="#i-file"/></svg>kit.js</a>
           </div>
         </div>
         <ol>
@@ -124,7 +136,7 @@
       </details>
       <footer class="footer">
         <p id="storage-note">O progresso fica neste navegador.</p>
-        <button type="button" id="reset" class="button button-text">Reiniciar percurso</button>
+        <button type="button" id="reset" class="button button-text"><svg class="icon icon-reset" aria-hidden="true" focusable="false"><use href="#i-reset"/></svg>Reiniciar percurso</button>
       </footer>
     </div>
   </main>
@@ -134,7 +146,7 @@
       <p>Os portões voltam ao estado inicial neste navegador. Seus arquivos no VS Code continuam disponíveis.</p>
       <div class="dialog-actions">
         <button class="button" value="cancel" autofocus>Cancelar</button>
-        <button class="button button-primary" value="reset">Reiniciar</button>
+        <button class="button button-primary" value="reset"><svg class="icon icon-reset" aria-hidden="true" focusable="false"><use href="#i-reset"/></svg>Reiniciar</button>
       </div>
     </form>
   </dialog>

@@ -75,4 +75,17 @@
   --btn-ink: var(--text-inverse);
   --btn-outline: var(--action-link);
   --focus-ring: var(--action-link);
+
+  --dur-micro: 120ms;
+  --dur-state: 220ms;
+  --dur-reveal: 350ms;
+  --stagger: 90ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-lift: 0 4px 10px -4px color-mix(in srgb, var(--p-ink) 40%, transparent);
+  --paper-grid: color-mix(in srgb, var(--p-line) 28%, transparent);
+  --paper-texture:
+    linear-gradient(var(--paper-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--paper-grid) 1px, transparent 1px);
+  --paper-cell: 1.5rem;
+  --stamp-ink: var(--action-primary);
 }

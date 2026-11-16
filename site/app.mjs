@@ -23,14 +23,56 @@ const announcement = byId('announcement');
 const wheelFigure = byId('wheel');
 const wheel = createWheel(wheelFigure);
 
+const SVG_NS = 'http://www.w3.org/2000/svg';
+
 let stage = 0;
 let view = 0;
 let checking = false;
+let lastOpened = -1;
+let freshStamp = false;
+let enterTimer = 0;
+let enterTarget = null;
 
 function element(tag, value) {
   const item = document.createElement(tag);
   if (value !== undefined) item.textContent = value;
   return item;
+}
+
+// Decorative icon from the inline sprite in index.html; the text next to it carries the meaning.
+function icon(name) {
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('class', `icon icon-${name}`);
+  svg.setAttribute('aria-hidden', 'true');
+  svg.setAttribute('focusable', 'false');
+  const use = document.createElementNS(SVG_NS, 'use');
+  use.setAttribute('href', `#i-${name}`);
+  svg.append(use);
+  return svg;
+}
+
+function setLabel(target, name, text) {
+  target.replaceChildren(icon(name), element('span', text));
+}
+
+function announce(text = '') {
+  if (text) setLabel(announcement, 'stamp', text);
+  else announcement.replaceChildren();
+}
+
+// Restarts a one-shot CSS animation class on an element.
+function replay(target, className) {
+  target.classList.remove(className);
+  void target.offsetWidth;
+  target.classList.add(className);
+}
+
+function enter(target) {
+  clearTimeout(enterTimer);
+  if (enterTarget && enterTarget !== target) enterTarget.classList.remove('is-entering');
+  enterTarget = target;
+  replay(target, 'is-entering');
+  enterTimer = setTimeout(() => target.classList.remove('is-entering'), 700);
 }
 
 function renderRoute() {
@@ -47,14 +89,23 @@ function renderRoute() {
     const number = element('span', String(index + 1).padStart(2, '0'));
     number.className = 'route-number';
     const label = element('span');
-    label.append(element('b', `Portão ${index + 1}`), element('small', status));
+    const state = element('small');
+    setLabel(state, { open: 'check', current: 'route', locked: 'dash' }[button.dataset.state], status);
+    label.append(element('b', `Portão ${index + 1}`), state);
     button.append(number, label);
     button.addEventListener('click', () => openView(index));
     const entry = element('li');
     entry.append(button);
+    if (index === lastOpened && index < stage) {
+      const stamp = element('span', 'Aberto');
+      stamp.className = freshStamp ? 'route-stamp is-new' : 'route-stamp';
+      stamp.setAttribute('aria-hidden', 'true');
+      entry.append(stamp);
+    }
     return entry;
   });
   route.replaceChildren(...entries);
+  freshStamp = false;
 }
 
 function renderGate() {
@@ -72,7 +123,7 @@ function renderGate() {
   ciphertext.textContent = PUZZLES[view].text;
   copyStatus.textContent = '';
   copyStatus.classList.add('sr-only');
-  byId('copy').textContent = 'Copiar mensagem';
+  setLabel(byId('copy'), 'copy', 'Copiar mensagem');
 
   byId('instructions').replaceChildren(...guide.instructions.map(line => element('li', line)));
   byId('hints').replaceChildren(...guide.hints.map(({ title, text, code }) => {
@@ -85,7 +136,9 @@ function renderGate() {
       snippet.append(element('code', code));
       body.append(snippet);
     }
-    hint.append(element('summary', title), body);
+    const summary = element('summary');
+    summary.append(icon('hint'), ' ', element('span', title));
+    hint.append(summary, body);
     return hint;
   }));
   byId('references').replaceChildren(...guide.links.map(({ label, url }) => {
@@ -96,7 +149,7 @@ function renderGate() {
     link.rel = 'noopener noreferrer';
     const note = element('span', ' (abre em nova aba)');
     note.className = 'sr-only';
-    link.append(note);
+    link.append(' ', icon('external'), note);
     item.append(link);
     return item;
   }));
@@ -105,15 +158,18 @@ function renderGate() {
   answer.style.height = '';
   answer.removeAttribute('aria-invalid');
   answerStatus.textContent = '';
+  // A hidden form never fires animationend, so drop one-shot classes here.
+  answer.classList.remove('is-wrong');
+  answerStatus.classList.remove('is-fresh');
   answerForm.hidden = reviewing;
   byId('review').hidden = !reviewing;
-  byId('return').textContent = stage === total ? 'Voltar ao encerramento' : 'Voltar ao portão atual';
+  setLabel(byId('return'), 'back', stage === total ? 'Voltar ao encerramento' : 'Voltar ao portão atual');
 }
 
 function openView(index, { focus = true } = {}) {
   if (checking || index > stage) return;
   view = index;
-  announcement.textContent = '';
+  announce();
   renderRoute();
   workbench.hidden = view === total;
   completion.hidden = view !== total;
@@ -139,7 +195,7 @@ async function copyCiphertext() {
   try {
     await navigator.clipboard.writeText(ciphertext.textContent);
     if (view !== copiedView) return;
-    byId('copy').textContent = 'Mensagem copiada';
+    setLabel(byId('copy'), 'check', 'Mensagem copiada');
     copyStatus.classList.add('sr-only');
     copyStatus.textContent = 'Mensagem copiada. Cole no seu projeto do VS Code.';
   } catch {
@@ -157,6 +213,8 @@ async function copyCiphertext() {
 function showAnswerError(message) {
   answerStatus.textContent = message;
   answer.setAttribute('aria-invalid', 'true');
+  replay(answer, 'is-wrong');
+  replay(answerStatus, 'is-fresh');
   answer.focus();
 }
 
@@ -221,9 +279,12 @@ async function checkAnswer(event) {
 
   if (matches) {
     stage += 1;
+    lastOpened = stage - 1;
+    freshStamp = true;
     saveStage();
     openView(stage);
-    announcement.textContent = `Portão ${stage} aberto!${stage < total ? ' Troquem os papéis na equipe e sigam para o próximo.' : ''}`;
+    enter(stage === total ? completion : workbench);
+    announce(`Portão ${stage} aberto!${stage < total ? ' Troquem os papéis na equipe e sigam para o próximo.' : ''}`);
   }
 }
 
@@ -239,6 +300,8 @@ function start() {
   }
   byId('copy').addEventListener('click', copyCiphertext);
   answerForm.addEventListener('submit', checkAnswer);
+  answer.addEventListener('animationend', () => answer.classList.remove('is-wrong'));
+  answerStatus.addEventListener('animationend', () => answerStatus.classList.remove('is-fresh'));
   answer.addEventListener('input', () => {
     growAnswer();
     answer.removeAttribute('aria-invalid');
@@ -253,9 +316,10 @@ function start() {
   resetDialog.addEventListener('close', () => {
     if (resetDialog.returnValue !== 'reset') return;
     stage = 0;
+    lastOpened = -1;
     saveStage();
     openView(stage);
-    announcement.textContent = 'Percurso reiniciado.';
+    announce('Percurso reiniciado.');
   });
   openView(stage, { focus: false });
   bootStatus.hidden = true;

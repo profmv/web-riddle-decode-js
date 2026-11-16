@@ -27,11 +27,11 @@
   </header>
 
   <main class="frame">
-    <section class="section-block" id="missao" aria-labelledby="missao-titulo">
+    <section class="slip" id="missao" aria-labelledby="missao-titulo">
       <p class="eyebrow gate-label">Missão</p>
       <h2 id="missao-titulo">Criem a própria cifra</h2>
       <p>Vocês passaram pelos quatro portões decifrando mensagens. Agora o papel se inverte: a dupla (ou trio) inventa uma cifra e desafia as outras.</p>
-      <ol class="mission-grid">
+      <ol class="slip-steps" role="list">
         <li><strong>Inventem uma regra.</strong> Ela precisa ser possível de descobrir só com lógica.</li>
         <li><strong>Programem <code>cifrar</code> e <code>decifrar</code></strong> em um programa novo, usando o kit abaixo.</li>
         <li><strong>Cifrem uma frase</strong> e guardem o original no papel.</li>
@@ -39,10 +39,10 @@
       </ol>
     </section>
 
-    <section class="section-block" id="regras" aria-labelledby="regras-titulo">
+    <section class="rules-sheet" id="regras" aria-labelledby="regras-titulo">
       <p class="eyebrow gate-label">Regras do desafio</p>
       <h2 id="regras-titulo">Para a troca ser justa</h2>
-      <ol class="rules">
+      <ol class="rules" role="list">
         <li>A regra deve ser resolvida com lógica. Nada de sorteio aleatório: quem decifra precisa ter um caminho certo.</li>
         <li>Testem a ida e volta: <code>decifrar(cifrar(frase))</code> deve devolver a frase. Se não devolver, a outra dupla nunca conseguirá.</li>
         <li>A frase tem de 8 a 15 palavras.</li>
@@ -53,63 +53,35 @@
       </ol>
     </section>
 
-    <section class="section-block" id="ideias" aria-labelledby="ideias-titulo">
+    <section class="ledger" id="ideias" aria-labelledby="ideias-titulo">
       <p class="eyebrow gate-label">Ideias de cifras</p>
       <h2 id="ideias-titulo">Do mais fácil ao mais difícil</h2>
       <p>Escolham uma ideia, ou misturem duas. Os exemplos mostram só o começo: o resto é com vocês.</p>
-      <ol class="ideas">
-        <li>
-          <span class="eyebrow level">Nível 1 de 7</span>
-          <h3>Atbash (espelho)</h3>
-          <p>A vira Z, B vira Y, C vira X... O alfabeto é lido de trás para frente. Não precisa de chave.</p>
-          <p class="example">SOL vira HLO</p>
-        </li>
-        <li>
-          <span class="eyebrow level">Nível 2 de 7</span>
-          <h3>Inverter cada palavra</h3>
-          <p>Cada palavra é escrita de trás para frente, mas a ordem das palavras continua.</p>
-          <p class="example">OLA MUNDO vira ALO ODNUM</p>
-        </li>
-        <li>
-          <span class="eyebrow level">Nível 3 de 7</span>
-          <h3>Trocar letras vizinhas</h3>
-          <p>As letras trocam de lugar de duas em duas. Pensem no que fazer quando a palavra tem número ímpar de letras.</p>
-          <p class="example">CASA vira ACAS</p>
-        </li>
-        <li>
-          <span class="eyebrow level">Nível 4 de 7</span>
-          <h3>Letras em números</h3>
-          <p>Cada letra vira sua posição no alfabeto. Cuidem da separação entre os números, para que 1 e 12 não se confundam.</p>
-          <p class="example">CAB vira 3-1-2</p>
-        </li>
-        <li>
-          <span class="eyebrow level">Nível 5 de 7</span>
-          <h3>Deslocamento por palavra-chave (Vigenère)</h3>
-          <p>Cada letra da chave define um deslocamento diferente, repetido em ciclo. A chave SOL dá os passos 18, 14 e 11.</p>
-          <p class="example">ABC com a chave SOL vira SPN</p>
-        </li>
-        <li>
-          <span class="eyebrow level">Nível 6 de 7</span>
-          <h3>Deslocamento que depende da posição da palavra</h3>
-          <p>A primeira palavra anda 1, a segunda anda 2, e assim por diante. Quem decifra precisa contar as palavras.</p>
-          <p class="example">EU AMO vira FV COQ</p>
-        </li>
-        <li>
-          <span class="eyebrow level">Nível 7 de 7</span>
-          <h3>Duas camadas combinadas</h3>
-          <p>Por exemplo: Atbash e depois um deslocamento. Para decifrar, desfaçam as camadas na ordem inversa.</p>
-          <p class="example">cifrar = camada A, depois B. decifrar = desfaz B, depois A.</p>
-        </li>
-      </ol>
+      <dl class="ideas">
+        <dt><span class="eyebrow level">Nível 1 de 7</span><span class="idea-name">Atbash (espelho)</span></dt>
+        <dd><p>A vira Z, B vira Y, C vira X... O alfabeto é lido de trás para frente. Não precisa de chave.</p><p class="example">SOL vira HLO</p></dd>
+        <dt><span class="eyebrow level">Nível 2 de 7</span><span class="idea-name">Inverter cada palavra</span></dt>
+        <dd><p>Cada palavra é escrita de trás para frente, mas a ordem das palavras continua.</p><p class="example">OLA MUNDO vira ALO ODNUM</p></dd>
+        <dt><span class="eyebrow level">Nível 3 de 7</span><span class="idea-name">Trocar letras vizinhas</span></dt>
+        <dd><p>As letras trocam de lugar de duas em duas. Pensem no que fazer quando a palavra tem número ímpar de letras.</p><p class="example">CASA vira ACAS</p></dd>
+        <dt><span class="eyebrow level">Nível 4 de 7</span><span class="idea-name">Letras em números</span></dt>
+        <dd><p>Cada letra vira sua posição no alfabeto. Cuidem da separação entre os números, para que 1 e 12 não se confundam.</p><p class="example">CAB vira 3-1-2</p></dd>
+        <dt><span class="eyebrow level">Nível 5 de 7</span><span class="idea-name">Deslocamento por palavra-chave (Vigenère)</span></dt>
+        <dd><p>Cada letra da chave define um deslocamento diferente, repetido em ciclo. A chave SOL dá os passos 18, 14 e 11.</p><p class="example">ABC com a chave SOL vira SPN</p></dd>
+        <dt><span class="eyebrow level">Nível 6 de 7</span><span class="idea-name">Deslocamento que depende da posição da palavra</span></dt>
+        <dd><p>A primeira palavra anda 1, a segunda anda 2, e assim por diante. Quem decifra precisa contar as palavras.</p><p class="example">EU AMO vira FV COQ</p></dd>
+        <dt><span class="eyebrow level">Nível 7 de 7</span><span class="idea-name">Duas camadas combinadas</span></dt>
+        <dd><p>Por exemplo: Atbash e depois um deslocamento. Para decifrar, desfaçam as camadas na ordem inversa.</p><p class="example">cifrar = camada A, depois B. decifrar = desfaz B, depois A.</p></dd>
+      </dl>
     </section>
 
-    <section class="section-block" id="dicas" aria-labelledby="dicas-titulo">
+    <section class="field-tips" id="dicas" aria-labelledby="dicas-titulo">
       <p class="eyebrow gate-label">Dicas de programação</p>
       <h2 id="dicas-titulo">Antes de pedir ajuda</h2>
-      <ul class="tips">
+      <ul class="tips" role="list">
         <li><strong>Reaproveitem as funções dos portões.</strong> Copiar o que já funciona e adaptar é prática de quem programa de verdade.</li>
         <li><strong>Tirem os acentos com <code>normalize("NFD")</code>.</strong> Ele separa a letra do acento, e a linha abaixo apaga os acentos soltos.
-          <pre class="code-block"><code>texto.normalize("NFD").replace(/[̀-ͯ]/g, "")</code></pre>
+          <pre class="code-block"><code>texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "")</code></pre>
         </li>
         <li><strong>Testem os casos de borda:</strong> a letra Z, espaços, pontuação, texto vazio e letras minúsculas.</li>
         <li><strong>Usem <code>console.log</code> passo a passo.</strong> Mostrem cada letra e o resultado dela no Console (F12) para ver onde a lógica se perde.</li>
@@ -118,10 +90,10 @@
       </ul>
     </section>
 
-    <section class="section-block" id="curiosidades" aria-labelledby="curiosidades-titulo">
+    <section class="marginalia" id="curiosidades" aria-labelledby="curiosidades-titulo">
       <p class="eyebrow gate-label">Curiosidades</p>
       <h2 id="curiosidades-titulo">Uma história de segredos</h2>
-      <ul class="facts">
+      <ul class="facts" role="list">
         <li><b>Júlio César</b>Usava deslocamento de 3 letras, segundo o historiador Suetônio. Por isso esse tipo de cifra leva o nome dele.</li>
         <li><b>Atbash</b>É uma cifra hebraica antiga, que espelha o alfabeto: a primeira letra vira a última.</li>
         <li><b>Al-Kindi</b>No século IX, em Bagdá, ele descreveu a análise de frequência, a primeira grande técnica para quebrar cifras de substituição.</li>
@@ -153,12 +125,16 @@
     <details class="team-note sheet" id="ficha" open>
       <summary>Ficha da dupla</summary>
       <p class="sheet-hint">Preencham no papel (Ctrl+P imprime só esta ficha). Não escrevam a frase original aqui se for entregar a ficha à outra dupla.</p>
-      <ul class="sheet-list">
-        <li><span>Nome da cifra</span><i></i></li>
-        <li><span>Chave</span><i></i></li>
-        <li><span>Regra em uma frase</span><i></i></li>
-        <li><span>Pista para a outra dupla</span><i></i></li>
-      </ul>
+      <dl class="sheet-list">
+        <dt>Nome da cifra</dt>
+        <dd></dd>
+        <dt>Chave</dt>
+        <dd></dd>
+        <dt>Regra em uma frase</dt>
+        <dd></dd>
+        <dt>Pista para a outra dupla</dt>
+        <dd></dd>
+      </dl>
     </details>
 
     <footer class="footer">

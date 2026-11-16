@@ -26,7 +26,7 @@
   --surface-output: var(--p-sand);
   --text-main: var(--p-ink);
   --text-soft: var(--p-slate);
-  --text-on-action: var(--p-white);
+  --button-primary-ink: var(--p-white);
   --border-soft: var(--p-line);
   --border-control: var(--p-control-line);
   --action-main: var(--p-rust);
@@ -141,7 +141,7 @@ textarea { resize: vertical; }
 .botao:hover { background: var(--surface-output); }
 .botao:active { transform: translateY(1px); }
 .botao-primario {
-  color: var(--text-on-action);
+  color: var(--button-primary-ink);
   background: var(--button-primary-bg);
   border-color: var(--button-primary-bg);
 }

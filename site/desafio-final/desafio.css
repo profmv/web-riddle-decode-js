@@ -3,62 +3,73 @@
 
 .back-link { display: inline-flex; }
 
-.section-block {
-  margin-top: var(--space-8);
+/* Shared rhythm for the page sections. Each section has its own role and layout. */
+main > section[id] { margin-top: var(--space-8); min-width: 0; }
+main > section[id]:first-child { margin-top: var(--space-6); }
+main > section[id] h2 { margin-block: var(--space-1) var(--space-3); font-size: clamp(var(--step-3), 5vw, 2.75rem); }
+main > section[id] > p { max-width: 64ch; }
+main > section[id] .gate-label { color: var(--action-link); }
+main > section[id] code { overflow-wrap: anywhere; }
+
+/* Mission: a perforated dispatch slip with numbered steps. */
+.slip {
   padding: clamp(1rem, 3vw, 2rem);
   background: var(--surface-raised);
-  border: 1px solid var(--card-rule);
-  min-width: 0;
+  border-block: 2px dashed var(--border-control);
 }
-.section-block:first-of-type { margin-top: var(--space-6); }
-.section-block h2 { margin-block: var(--space-1) var(--space-3); font-size: clamp(var(--step-3), 5vw, 2.75rem); }
-.section-block > p { max-width: 64ch; }
-.section-block h3 { margin-top: 0; }
-
-.mission-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--space-3);
-  margin-top: var(--space-5);
-  padding: 0;
-  list-style: none;
-  counter-reset: mission;
-}
-.mission-grid li {
+.slip-steps { margin: var(--space-5) 0 0; padding: 0; list-style: none; counter-reset: mission; }
+.slip-steps li {
   position: relative;
-  padding: var(--space-3) var(--space-4) var(--space-4);
-  background: var(--surface-secondary);
-  border-top: var(--space-1) solid var(--action-link);
+  padding: var(--space-3) 0 var(--space-3) var(--space-12);
+  border-top: 1px dashed var(--border-control);
   counter-increment: mission;
+  overflow-wrap: break-word;
+}
+.slip-steps li::before {
+  content: counter(mission, decimal-leading-zero);
+  position: absolute;
+  top: var(--space-3);
+  left: 0;
+  color: var(--action-link);
+  font: 600 var(--step-1)/1.25 var(--font-mono);
+}
+
+/* Rules: heading in the left margin, numbered clauses on bare paper. */
+.rules-sheet {
+  display: grid;
+  grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+  column-gap: var(--space-8);
+  align-items: start;
+}
+.rules-sheet > .eyebrow, .rules-sheet > h2 { grid-column: 1; }
+.rules-sheet > .rules { grid-column: 2; grid-row: 1 / span 3; }
+.rules { margin: 0; padding: 0; list-style: none; counter-reset: rule; max-width: 70ch; }
+.rules li {
+  position: relative;
+  padding: var(--space-3) 0 var(--space-3) var(--space-8);
+  border-bottom: 1px solid var(--card-rule);
+  counter-increment: rule;
   overflow-wrap: anywhere;
 }
-.mission-grid li::before {
-  content: counter(mission, decimal-leading-zero);
-  display: block;
-  margin-bottom: var(--space-1);
-  color: var(--action-primary);
-  font: 600 var(--step-1)/1 var(--font-mono);
+.rules li::before {
+  content: counter(rule);
+  position: absolute;
+  left: 0;
+  top: var(--space-3);
+  color: var(--text-secondary);
+  font: 600 var(--step-1)/1.2 var(--font-mono);
 }
 
-.rules { margin-top: var(--space-4); padding-inline-start: var(--space-6); max-width: 70ch; }
-.rules li + li { margin-top: var(--space-3); }
-.rules li::marker { color: var(--action-primary); font: 600 1rem var(--font-mono); }
-
-.ideas {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-3);
-  margin-top: var(--space-4);
-  padding: 0;
-  list-style: none;
-}
-.ideas li { min-width: 0; padding: var(--space-4); background: var(--surface-primary); border: 1px solid var(--card-rule); }
-.ideas h3 { margin-top: var(--space-1); }
-.ideas p { margin-top: var(--space-2); }
+/* Ideas: a ledger with level labels and a worked example per row. */
+.ledger { padding-block: var(--space-4); border-block: 1px solid var(--card-rule); }
+.ideas { display: grid; grid-template-columns: minmax(0, 14rem) minmax(0, 1fr); margin: var(--space-4) 0 0; }
+.ideas dt, .ideas dd { margin: 0; padding-block: var(--space-4); border-top: 1px dashed var(--border-control); min-width: 0; }
+.ideas dt { display: grid; align-content: start; gap: var(--space-1); padding-right: var(--space-4); }
+.idea-name { font: 700 var(--step-1)/1.2 var(--font-display); overflow-wrap: anywhere; }
+.ideas dd p + p { margin-top: var(--space-2); }
 .level { color: var(--text-secondary); }
 
 .example {
-  margin-top: var(--space-2);
   padding: var(--space-2) var(--space-3);
   background: var(--surface-secondary);
   font: 500 0.875rem/1.5 var(--font-mono);
@@ -66,9 +77,23 @@
   overflow-wrap: anywhere;
 }
 
-.tips { margin-top: var(--space-4); padding-inline-start: var(--space-5); max-width: 70ch; }
-.tips li + li { margin-top: var(--space-3); }
-.tips li::marker { color: var(--action-primary); }
+/* Tips: a checklist on bare paper, each line closed by a ruled line. */
+.tips { margin: var(--space-4) 0 0; padding: 0; list-style: none; max-width: 70ch; }
+.tips li {
+  position: relative;
+  padding: var(--space-3) 0 var(--space-3) var(--space-6);
+  border-bottom: 1px solid var(--card-rule);
+  overflow-wrap: anywhere;
+}
+.tips li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: var(--space-4);
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 2px solid var(--action-link);
+}
 
 .code-block {
   margin: var(--space-3) 0 0;
@@ -79,32 +104,35 @@
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
-.section-block code, .kit code { overflow-wrap: anywhere; }
 
-.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); margin-top: var(--space-4); padding: 0; list-style: none; }
-.facts li { min-width: 0; padding: var(--space-4); background: var(--card-guide-bg); border-top: var(--space-1) solid var(--action-link); }
-.facts b { display: block; margin-bottom: var(--space-1); font: 700 var(--step-1)/1.2 var(--font-display); }
+/* Curiosities: margin notes on a blue-paper band, set in two columns. */
+.marginalia { padding: clamp(1rem, 3vw, 2rem); background: var(--card-guide-bg); }
+.facts { columns: 2 18rem; column-gap: var(--space-8); margin: var(--space-4) 0 0; padding: 0; list-style: none; }
+.facts li { break-inside: avoid; padding-block: var(--space-3); border-top: 1px dashed var(--border-control); overflow-wrap: anywhere; }
+.facts b { display: block; margin-bottom: var(--space-1); color: var(--action-link); font: 600 0.8125rem/1.5 var(--font-mono); letter-spacing: 0.09em; text-transform: uppercase; }
 
 .kit.section-kit { margin-top: var(--space-8); }
 
 .sheet { margin-top: var(--space-8); }
-.sheet-list { display: grid; gap: var(--space-3); margin: 0; padding: 0 var(--space-3) var(--space-4); list-style: none; max-width: 70ch; }
-.sheet-list li { display: grid; gap: var(--space-1); }
-.sheet-list span { font-weight: 700; }
-.sheet-list i { display: block; min-height: 2rem; border-bottom: 1px solid var(--border-control); }
+.sheet-list { display: grid; gap: var(--space-3); margin: 0; padding: 0 var(--space-3) var(--space-4); max-width: 70ch; }
+.sheet-list dt { font-weight: 700; }
+.sheet-list dd { min-height: 2rem; margin: 0 0 var(--space-3); border-bottom: 1px solid var(--border-control); }
 .sheet-hint { padding: 0 var(--space-3) var(--space-4); color: var(--text-secondary); }
 
 @media (max-width: 52rem) {
-  .mission-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rules-sheet { grid-template-columns: minmax(0, 1fr); }
+  .rules-sheet > .rules { grid-column: 1; grid-row: auto; margin-top: var(--space-4); }
 }
 
 @media (max-width: 36rem) {
-  .mission-grid, .ideas, .facts { grid-template-columns: minmax(0, 1fr); }
-  .section-block { margin-top: var(--space-5); }
+  .ideas { grid-template-columns: minmax(0, 1fr); }
+  .ideas dt { padding-bottom: 0; padding-right: 0; }
+  .ideas dd { border-top: 0; padding-top: var(--space-2); }
+  main > section[id] { margin-top: var(--space-5); }
 }
 
 @media print {
-  .skip-link, .masthead, .section-block, .kit, .footer { display: none !important; }
+  .skip-link, .masthead, main > section[id], .footer { display: none !important; }
   .sheet { display: block !important; margin: 0; border: 0; }
 }
 
