@@ -1,0 +1,180 @@
+/* Minha cifra - standalone stylesheet (no imports, works offline).
+   Structure: primitives -> semantic -> component tokens. */
+
+:root {
+  /* primitives */
+  --p-paper: #f7f0e4;
+  --p-white: #fffaf0;
+  --p-sand: #eee1cb;
+  --p-ink: #172c3e;
+  --p-indigo: #263f56;
+  --p-slate: #506275;
+  --p-line: #c9baa4;
+  --p-control-line: #7a7369;
+  --p-rust: #923b25;
+  --p-rust-dark: #75301e;
+  --p-error-paper: #f5dfd7;
+  --p-green: #245740;
+  --p-green-paper: #e3ede0;
+  --p-amber-paper: #f4e6c3;
+  --p-amber-ink: #5c4210;
+  --p-space: 0.25rem;
+
+  /* semantic */
+  --surface-page: var(--p-paper);
+  --surface-card: var(--p-white);
+  --surface-output: var(--p-sand);
+  --text-main: var(--p-ink);
+  --text-soft: var(--p-slate);
+  --text-on-action: var(--p-white);
+  --border-soft: var(--p-line);
+  --border-control: var(--p-control-line);
+  --action-main: var(--p-rust);
+  --action-hover: var(--p-rust-dark);
+  --action-link: var(--p-indigo);
+  --state-ok-ink: var(--p-green);
+  --state-ok-bg: var(--p-green-paper);
+  --state-warn-ink: var(--p-amber-ink);
+  --state-warn-bg: var(--p-amber-paper);
+  --state-error-ink: var(--p-rust-dark);
+  --state-error-bg: var(--p-error-paper);
+  --space-1: var(--p-space);
+  --space-2: calc(var(--p-space) * 2);
+  --space-3: calc(var(--p-space) * 3);
+  --space-4: calc(var(--p-space) * 4);
+  --space-6: calc(var(--p-space) * 6);
+  --space-8: calc(var(--p-space) * 8);
+  --font-text: 'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  --font-code: 'IBM Plex Mono', ui-monospace, Consolas, 'Courier New', monospace;
+  --font-title: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;
+
+  /* component */
+  --card-bg: var(--surface-card);
+  --card-border: var(--border-soft);
+  --field-bg: var(--surface-card);
+  --field-border: var(--border-control);
+  --button-bg: var(--surface-card);
+  --button-ink: var(--action-link);
+  --button-primary-bg: var(--action-main);
+  --button-primary-hover: var(--action-hover);
+  --focus-ring: var(--action-link);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  color: var(--text-main);
+  background: var(--surface-page);
+  font: 1rem/1.55 var(--font-text);
+}
+
+p, h1, h2 { margin: 0; }
+
+h1, h2 { font-family: var(--font-title); line-height: 1.05; }
+h1 { font-size: clamp(2.5rem, 9vw, 3.75rem); font-weight: 800; }
+h2 { font-size: 1.563rem; font-weight: 700; }
+
+code {
+  padding: 0.05em 0.3em;
+  background: var(--surface-output);
+  font-family: var(--font-code);
+  font-size: 0.9em;
+  overflow-wrap: anywhere;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+.pagina {
+  display: grid;
+  gap: var(--space-4);
+  width: min(100% - var(--space-8), 44rem);
+  margin-inline: auto;
+  padding-block: var(--space-8);
+}
+
+.topo { display: grid; gap: var(--space-3); padding-bottom: var(--space-2); }
+.topo p { max-width: 60ch; color: var(--text-soft); }
+
+.cartao {
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+  padding: var(--space-4) var(--space-4) var(--space-6);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+}
+
+.campo { display: grid; gap: var(--space-2); min-width: 0; }
+.campo label { font-weight: 700; }
+
+textarea,
+input[type="text"] {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: var(--space-2) var(--space-3);
+  color: var(--text-main);
+  background: var(--field-bg);
+  border: 1px solid var(--field-border);
+  border-radius: 0;
+  font: 1rem/1.5 var(--font-code);
+}
+textarea { resize: vertical; }
+
+.acoes { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+.botao {
+  min-height: 44px;
+  min-width: 44px;
+  padding: var(--space-2) var(--space-4);
+  color: var(--button-ink);
+  background: var(--button-bg);
+  border: 1px solid var(--button-ink);
+  border-radius: 0;
+  font: 700 1rem/1.2 var(--font-text);
+  cursor: pointer;
+}
+.botao:hover { background: var(--surface-output); }
+.botao:active { transform: translateY(1px); }
+.botao-primario {
+  color: var(--text-on-action);
+  background: var(--button-primary-bg);
+  border-color: var(--button-primary-bg);
+}
+.botao-primario:hover {
+  background: var(--button-primary-hover);
+  border-color: var(--button-primary-hover);
+}
+
+.resultado {
+  display: block;
+  min-height: 4.5rem;
+  padding: var(--space-3);
+  background: var(--surface-output);
+  border-block: 1px dashed var(--border-control);
+  font: 600 1.0625rem/1.6 var(--font-code);
+  letter-spacing: 0.05em;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
+.estado { color: var(--text-soft); white-space: pre-wrap; overflow-wrap: anywhere; }
+.estado:empty { display: none; }
+.estado[data-tipo="ok"] { padding: var(--space-2) var(--space-3); color: var(--state-ok-ink); background: var(--state-ok-bg); }
+.estado[data-tipo="aviso"] { padding: var(--space-2) var(--space-3); color: var(--state-warn-ink); background: var(--state-warn-bg); }
+.estado[data-tipo="erro"] { padding: var(--space-2) var(--space-3); color: var(--state-error-ink); background: var(--state-error-bg); }
+
+@media (max-width: 30rem) {
+  .pagina { width: min(100% - var(--space-6), 44rem); padding-block: var(--space-4); }
+  .cartao { padding: var(--space-3) var(--space-3) var(--space-4); }
+  .acoes .botao { flex: 1 1 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition-duration: 0.01ms !important; }
+}

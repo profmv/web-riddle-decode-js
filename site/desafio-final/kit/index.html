@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Minha cifra</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="cifra.js" defer></script>
+  <script src="painel.js" defer></script>
+</head>
+<body>
+  <main class="pagina">
+    <header class="topo">
+      <h1>Minha cifra</h1>
+      <p>Edite as funções <code>cifrar</code> e <code>decifrar</code> em <code>cifra.js</code>. O arquivo <code>painel.js</code> já liga esta página: salve, atualize a aba e teste.</p>
+    </header>
+
+    <form id="formulario" class="cartao" onsubmit="return false" novalidate>
+      <div class="campo">
+        <label for="texto">Texto</label>
+        <textarea id="texto" rows="4" spellcheck="false" autocomplete="off">Olá, mundo! Vamos criar uma cifra.</textarea>
+      </div>
+      <div class="campo">
+        <label for="chave">Chave</label>
+        <input id="chave" type="text" spellcheck="false" autocomplete="off" value="SOL">
+      </div>
+      <div class="acoes">
+        <button type="button" id="cifrar" class="botao botao-primario">Cifrar</button>
+        <button type="button" id="decifrar" class="botao">Decifrar</button>
+        <button type="button" id="testar" class="botao">Testar ida e volta</button>
+      </div>
+    </form>
+
+    <section class="cartao" aria-labelledby="titulo-resultado">
+      <h2 id="titulo-resultado">Resultado</h2>
+      <output id="resultado" class="resultado" for="texto chave"></output>
+      <p id="estado" class="estado" role="status"></p>
+    </section>
+  </main>
+</body>
+</html>

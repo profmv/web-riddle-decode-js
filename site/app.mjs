@@ -1,6 +1,7 @@
 import { GATE_GUIDES } from './gates.js';
 import { PUZZLES } from './puzzles.mjs';
 import { answerDigest, normalizeAnswer, readProgress } from './validation.mjs';
+import { createWheel } from './wheel.mjs';
 
 const total = GATE_GUIDES.length;
 const storageKey = 'estacao-cifra:gate:v1';
@@ -19,6 +20,8 @@ const submit = byId('submit');
 const reset = byId('reset');
 const resetDialog = byId('reset-dialog');
 const announcement = byId('announcement');
+const wheelFigure = byId('wheel');
+const wheel = createWheel(wheelFigure);
 
 let stage = 0;
 let view = 0;
@@ -63,6 +66,9 @@ function renderGate() {
   byId('gate-topic').textContent = guide.topic;
   byId('concept-title').textContent = guide.concept.title;
   byId('concept-text').textContent = guide.concept.text;
+  wheelFigure.hidden = view !== 0;
+  if (view === 0) wheel.start();
+  else wheel.stop();
   ciphertext.textContent = PUZZLES[view].text;
   copyStatus.textContent = '';
   copyStatus.classList.add('sr-only');
@@ -86,11 +92,17 @@ function renderGate() {
     const item = element('li');
     const link = element('a', label);
     link.href = url;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    const note = element('span', ' (abre em nova aba)');
+    note.className = 'sr-only';
+    link.append(note);
     item.append(link);
     return item;
   }));
 
   answerForm.reset();
+  answer.style.height = '';
   answer.removeAttribute('aria-invalid');
   answerStatus.textContent = '';
   answerForm.hidden = reviewing;
@@ -106,6 +118,7 @@ function openView(index, { focus = true } = {}) {
   workbench.hidden = view === total;
   completion.hidden = view !== total;
   if (view !== total) renderGate();
+  else wheel.stop();
   if (focus) byId(view === total ? 'completion-title' : 'gate-title').focus();
 }
 
@@ -147,6 +160,40 @@ function showAnswerError(message) {
   answer.focus();
 }
 
+function growAnswer() {
+  answer.style.height = 'auto';
+  answer.style.height = `${answer.scrollHeight + 2}px`;
+}
+
+// Builds specific feedback for a wrong answer using only digests (no plaintext on the site).
+async function explainMismatch(value) {
+  if (/undefined|NaN/.test(value)) {
+    return 'A resposta tem "undefined" ou "NaN". Alguma conta levou a posição para fora do alfabeto. Imprimam a posição com console.log para achar a linha.';
+  }
+  const puzzle = PUZZLES[stage];
+  if (puzzle.layers) {
+    const digest = await answerDigest(value);
+    if (digest === puzzle.layers.order) {
+      return 'As duas camadas foram desfeitas, mas na ordem trocada. Qual etapa da cifra mexeu por último no texto? Desfaçam essa primeiro.';
+    }
+    if (digest === puzzle.layers.noReverse) {
+      return 'O giro já foi desfeito. Falta desfazer a inversão das letras dentro de cada trecho.';
+    }
+  }
+  const words = normalizeAnswer(value).split(' ');
+  const hits = await Promise.all(puzzle.words.map(async (expected, index) =>
+    index < words.length && await answerDigest(`${stage}:${index}:${words[index]}`) === expected));
+  const matched = hits.filter(Boolean).length;
+  const parts = [`${matched} de ${puzzle.words.length} palavras conferem.`];
+  if (words.length !== puzzle.words.length) {
+    parts.push(`A resposta tem ${words.length} palavras e a mensagem tem ${puzzle.words.length}.`);
+  } else {
+    parts.push(`A primeira diferença está na palavra ${hits.indexOf(false) + 1}.`);
+  }
+  parts.push(matched === 0 ? 'Revisem o deslocamento e a pontuação.' : GATE_GUIDES[stage].retry);
+  return parts.join(' ');
+}
+
 async function checkAnswer(event) {
   event.preventDefault();
   if (checking || view !== stage || stage === total) return;
@@ -162,7 +209,7 @@ async function checkAnswer(event) {
   let matches = false;
   try {
     matches = await answerDigest(value) === PUZZLES[stage].digest;
-    if (!matches) showAnswerError('A mensagem ainda não confere. Revisem o deslocamento e a pontuação.');
+    if (!matches) showAnswerError(await explainMismatch(value));
   } catch {
     answerStatus.textContent = 'O navegador não conseguiu conferir a mensagem. Atualizem a página e tentem novamente.';
     answer.focus();
@@ -176,7 +223,7 @@ async function checkAnswer(event) {
     stage += 1;
     saveStage();
     openView(stage);
-    announcement.textContent = `Portão ${stage} aberto.${stage < total ? ' Troquem os papéis na equipe e sigam para o próximo.' : ''}`;
+    announcement.textContent = `Portão ${stage} aberto!${stage < total ? ' Troquem os papéis na equipe e sigam para o próximo.' : ''}`;
   }
 }
 
@@ -193,6 +240,7 @@ function start() {
   byId('copy').addEventListener('click', copyCiphertext);
   answerForm.addEventListener('submit', checkAnswer);
   answer.addEventListener('input', () => {
+    growAnswer();
     answer.removeAttribute('aria-invalid');
     answerStatus.textContent = '';
   });

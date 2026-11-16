@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Desafio final da Estação Cifra: criem a sua própria cifra em JavaScript e desafiem outras duplas.">
+  <meta name="theme-color" content="#172c3e">
+  <title>Desafio final | Estação Cifra</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=DM+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+  <link rel="stylesheet" href="../assets/tokens.css">
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="desafio.css">
+</head>
+<body>
+  <a class="skip-link" href="#missao">Ir à missão</a>
+  <header class="masthead">
+    <div class="frame masthead-inner">
+      <div>
+        <h1>Desafio final<span class="masthead-dot" aria-hidden="true"></span></h1>
+        <p class="deck">Agora a cifra é de vocês. Criem uma regra, escondam uma frase e vejam se outra dupla consegue quebrá-la.</p>
+      </div>
+      <div class="masthead-tools">
+        <span class="signal-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <a class="kit-jump back-link" href="../index.html">Voltar aos portões</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="frame">
+    <section class="section-block" id="missao" aria-labelledby="missao-titulo">
+      <p class="eyebrow gate-label">Missão</p>
+      <h2 id="missao-titulo">Criem a própria cifra</h2>
+      <p>Vocês passaram pelos quatro portões decifrando mensagens. Agora o papel se inverte: a dupla (ou trio) inventa uma cifra e desafia as outras.</p>
+      <ol class="mission-grid">
+        <li><strong>Inventem uma regra.</strong> Ela precisa ser possível de descobrir só com lógica.</li>
+        <li><strong>Programem <code>cifrar</code> e <code>decifrar</code></strong> em um programa novo, usando o kit abaixo.</li>
+        <li><strong>Cifrem uma frase</strong> e guardem o original no papel.</li>
+        <li><strong>Troquem de dupla.</strong> Cada grupo tenta quebrar a cifra do outro.</li>
+      </ol>
+    </section>
+
+    <section class="section-block" id="regras" aria-labelledby="regras-titulo">
+      <p class="eyebrow gate-label">Regras do desafio</p>
+      <h2 id="regras-titulo">Para a troca ser justa</h2>
+      <ol class="rules">
+        <li>A regra deve ser resolvida com lógica. Nada de sorteio aleatório: quem decifra precisa ter um caminho certo.</li>
+        <li>Testem a ida e volta: <code>decifrar(cifrar(frase))</code> deve devolver a frase. Se não devolver, a outra dupla nunca conseguirá.</li>
+        <li>A frase tem de 8 a 15 palavras.</li>
+        <li>Entreguem à outra dupla o texto cifrado e uma pista de uma linha.</li>
+        <li>Guardem a frase original no papel, não no computador compartilhado.</li>
+        <li>A dupla que quebrou explica a regra em voz alta. Quem criou confirma se está certo.</li>
+        <li>Os papéis giram, como nos portões: quem programou revisa, quem revisou programa.</li>
+      </ol>
+    </section>
+
+    <section class="section-block" id="ideias" aria-labelledby="ideias-titulo">
+      <p class="eyebrow gate-label">Ideias de cifras</p>
+      <h2 id="ideias-titulo">Do mais fácil ao mais difícil</h2>
+      <p>Escolham uma ideia, ou misturem duas. Os exemplos mostram só o começo: o resto é com vocês.</p>
+      <ol class="ideas">
+        <li>
+          <span class="eyebrow level">Nível 1 de 7</span>
+          <h3>Atbash (espelho)</h3>
+          <p>A vira Z, B vira Y, C vira X... O alfabeto é lido de trás para frente. Não precisa de chave.</p>
+          <p class="example">SOL vira HLO</p>
+        </li>
+        <li>
+          <span class="eyebrow level">Nível 2 de 7</span>
+          <h3>Inverter cada palavra</h3>
+          <p>Cada palavra é escrita de trás para frente, mas a ordem das palavras continua.</p>
+          <p class="example">OLA MUNDO vira ALO ODNUM</p>
+        </li>
+        <li>
+          <span class="eyebrow level">Nível 3 de 7</span>
+          <h3>Trocar letras vizinhas</h3>
+          <p>As letras trocam de lugar de duas em duas. Pensem no que fazer quando a palavra tem número ímpar de letras.</p>
+          <p class="example">CASA vira ACAS</p>
+        </li>
+        <li>
+          <span class="eyebrow level">Nível 4 de 7</span>
+          <h3>Letras em números</h3>
+          <p>Cada letra vira sua posição no alfabeto. Cuidem da separação entre os números, para que 1 e 12 não se confundam.</p>
+          <p class="example">CAB vira 3-1-2</p>
+        </li>
+        <li>
+          <span class="eyebrow level">Nível 5 de 7</span>
+          <h3>Deslocamento por palavra-chave (Vigenère)</h3>
+          <p>Cada letra da chave define um deslocamento diferente, repetido em ciclo. A chave SOL dá os passos 18, 14 e 11.</p>
+          <p class="example">ABC com a chave SOL vira SPN</p>
+        </li>
+        <li>
+          <span class="eyebrow level">Nível 6 de 7</span>
+          <h3>Deslocamento que depende da posição da palavra</h3>
+          <p>A primeira palavra anda 1, a segunda anda 2, e assim por diante. Quem decifra precisa contar as palavras.</p>
+          <p class="example">EU AMO vira FV COQ</p>
+        </li>
+        <li>
+          <span class="eyebrow level">Nível 7 de 7</span>
+          <h3>Duas camadas combinadas</h3>
+          <p>Por exemplo: Atbash e depois um deslocamento. Para decifrar, desfaçam as camadas na ordem inversa.</p>
+          <p class="example">cifrar = camada A, depois B. decifrar = desfaz B, depois A.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="section-block" id="dicas" aria-labelledby="dicas-titulo">
+      <p class="eyebrow gate-label">Dicas de programação</p>
+      <h2 id="dicas-titulo">Antes de pedir ajuda</h2>
+      <ul class="tips">
+        <li><strong>Reaproveitem as funções dos portões.</strong> Copiar o que já funciona e adaptar é prática de quem programa de verdade.</li>
+        <li><strong>Tirem os acentos com <code>normalize("NFD")</code>.</strong> Ele separa a letra do acento, e a linha abaixo apaga os acentos soltos.
+          <pre class="code-block"><code>texto.normalize("NFD").replace(/[̀-ͯ]/g, "")</code></pre>
+        </li>
+        <li><strong>Testem os casos de borda:</strong> a letra Z, espaços, pontuação, texto vazio e letras minúsculas.</li>
+        <li><strong>Usem <code>console.log</code> passo a passo.</strong> Mostrem cada letra e o resultado dela no Console (F12) para ver onde a lógica se perde.</li>
+        <li><strong>A regra pode ser pública; a chave é o segredo.</strong> Esse é o princípio de Kerckhoffs (1883): uma boa cifra continua segura mesmo que todos conheçam o método.</li>
+        <li><strong>Substituição simples cai na análise de frequência.</strong> Em português, A, E e O são as letras mais comuns. Se uma letra aparece muito no texto cifrado, ela provavelmente esconde uma delas.</li>
+      </ul>
+    </section>
+
+    <section class="section-block" id="curiosidades" aria-labelledby="curiosidades-titulo">
+      <p class="eyebrow gate-label">Curiosidades</p>
+      <h2 id="curiosidades-titulo">Uma história de segredos</h2>
+      <ul class="facts">
+        <li><b>Júlio César</b>Usava deslocamento de 3 letras, segundo o historiador Suetônio. Por isso esse tipo de cifra leva o nome dele.</li>
+        <li><b>Atbash</b>É uma cifra hebraica antiga, que espelha o alfabeto: a primeira letra vira a última.</li>
+        <li><b>Al-Kindi</b>No século IX, em Bagdá, ele descreveu a análise de frequência, a primeira grande técnica para quebrar cifras de substituição.</li>
+        <li><b>A cifra indecifrável</b>Giovan Battista Bellaso publicou a cifra por palavra-chave em 1553. Depois ela foi atribuída a Vigenère e chamada de &quot;a cifra indecifrável&quot;, até Kasiski publicar um método para quebrá-la em 1863.</li>
+        <li><b>Enigma</b>Na Segunda Guerra Mundial, a máquina alemã Enigma foi atacada pela equipe de Alan Turing em Bletchley Park, na Inglaterra.</li>
+        <li><b>ROT13</b>Desloca 13 letras. Como o alfabeto tem 26, aplicar duas vezes devolve o texto original.</li>
+        <li><b>SHA-256</b>Este jogo confere as respostas com SHA-256 sem guardar o texto da resposta: ele compara só a &quot;impressão digital&quot; do que vocês digitam.</li>
+      </ul>
+    </section>
+
+    <section class="kit section-kit" id="kit" aria-labelledby="kit-titulo">
+      <div>
+        <h2 id="kit-titulo">Kit do desafio final</h2>
+        <p>Um programa novo, só para a cifra de vocês.</p>
+        <div class="downloads" aria-label="Arquivos do kit do desafio final">
+          <a href="kit/index.html" download="index.html">index.html</a>
+          <a href="kit/style.css" download="style.css">style.css</a>
+          <a href="kit/cifra.js" download="cifra.js">cifra.js</a>
+          <a href="kit/painel.js" download="painel.js">painel.js</a>
+        </div>
+      </div>
+      <ol>
+        <li>Baixem os quatro arquivos e coloquem tudo na mesma pasta, sem mudar os nomes.</li>
+        <li>Abram a pasta no VS Code e editem <code>cifrar</code> e <code>decifrar</code> em <code>cifra.js</code>.</li>
+        <li>Abram o <code>index.html</code> no navegador e usem o botão <strong>Testar ida e volta</strong>. Salvem e atualizem a aba a cada teste.</li>
+      </ol>
+    </section>
+
+    <details class="team-note sheet" id="ficha" open>
+      <summary>Ficha da dupla</summary>
+      <p class="sheet-hint">Preencham no papel (Ctrl+P imprime só esta ficha). Não escrevam a frase original aqui se for entregar a ficha à outra dupla.</p>
+      <ul class="sheet-list">
+        <li><span>Nome da cifra</span><i></i></li>
+        <li><span>Chave</span><i></i></li>
+        <li><span>Regra em uma frase</span><i></i></li>
+        <li><span>Pista para a outra dupla</span><i></i></li>
+      </ul>
+    </details>
+
+    <footer class="footer">
+      <p>Bom desafio! Quando terminarem, voltem à estação.</p>
+      <a class="button" href="../index.html">Voltar aos portões</a>
+    </footer>
+  </main>
+</body>
+</html>

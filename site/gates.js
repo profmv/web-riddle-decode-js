@@ -15,7 +15,7 @@ export const GATE_GUIDES = [
     hints: [
       {
         title: 'Como achar a posição?',
-        text: 'Teste estas duas linhas no seu projeto. Depois troque "F" por "!" e use a diferença para decidir se o caractere deve ficar como veio.',
+        text: 'Teste estas linhas no seu projeto. Depois troque "F" por "!" e use a diferença para decidir se o caractere deve ficar como veio.',
         code: 'const alfabeto = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"\nconst posicao = alfabeto.indexOf("F")\nconsole.log(posicao)'
       },
       {
@@ -23,9 +23,10 @@ export const GATE_GUIDES = [
         text: 'Imagine um teste com deslocamento de 1. Para qual letra A deve voltar? Use esse teste para decidir o que fazer quando a posição calculada ficar negativa.'
       }
     ],
+    retry: 'Confiram a volta do A para o Z e se espaços e pontuação ficaram no lugar.',
     links: [
-      { label: 'String.indexOf()', url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf' },
-      { label: 'Laços for...of', url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of' }
+      { label: 'String.indexOf()', url: 'https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf' },
+      { label: 'Laços for...of', url: 'https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Statements/for...of' }
     ]
   },
   {
@@ -52,37 +53,40 @@ export const GATE_GUIDES = [
         text: 'Compare o segundo A nas entradas "AA" e "A A". Os dois precisam receber o mesmo deslocamento. Confira em qual parte do laço você aumenta o contador.'
       }
     ],
+    retry: 'Se o começo confere e o resto não, confiram se o contador avança em espaços ou pontuação.',
     links: [
-      { label: 'Vetores com Array', url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array' },
-      { label: 'Operador de resto %', url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Remainder' }
+      { label: 'Vetores com Array', url: 'https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array' },
+      { label: 'Operadores aritméticos, incluindo %', url: 'https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Guide/Expressions_and_operators' }
     ]
   },
   {
     title: 'A marcha dos blocos',
-    topic: 'Math.abs(), Math.floor() e blocos de letras',
+    topic: 'Math.floor() e blocos de letras',
     brief: 'O mecanismo sobe um degrau a cada quatro letras. Descubra o degrau de cada letra antes de girar a roda.',
     instructions: [
       'Use a contagem de letras do portão anterior, a partir de zero e sem contar espaços nem pontuação.',
-      'O deslocamento começa em Math.abs(-2). Divida o índice da letra por 4, arredonde para baixo com Math.floor() e some esse número ao deslocamento inicial.',
+      'O deslocamento começa em 2. Divida o índice da letra por 4, arredonde para baixo com Math.floor() e some esse número ao deslocamento inicial.',
       'Passe o deslocamento calculado para sua função de decodificar uma letra. Preserve os demais caracteres.'
     ],
     concept: {
       title: 'Uma conta para achar o bloco',
-      text: 'Math.abs() dá a distância até zero. Math.floor() encontra o inteiro abaixo ou igual ao resultado. Nos índices 3 e 4, dividir por 4 e arredondar para baixo dá 0 e 1, respectivamente.'
+      text: 'Math.floor() encontra o inteiro abaixo ou igual ao resultado. Nos índices 3 e 4, dividir por 4 e arredondar para baixo dá 0 e 1, respectivamente.'
     },
     hints: [
       {
         title: 'Onde o deslocamento muda?',
-        text: 'Antes de rodar o texto inteiro, imprima o índice e o deslocamento para os índices de 0 a 9. Confira se o valor fica igual dentro de cada grupo de quatro.'
+        text: 'Antes de rodar o texto inteiro, imprima o índice e o deslocamento para os índices de 0 a 9. Confira se o valor fica igual dentro de cada grupo de quatro.',
+        code: 'for (let i = 0; i < 10; i++) {\n  console.log(i, 2 + Math.floor(i / 4))\n}'
       },
       {
-        title: 'E se o giro for grande?',
-        text: 'Uma volta completa tem 26 letras. Considere um teste com deslocamento 27. Compare o resultado com um deslocamento de 1 e confira se sua função trata voltas completas.'
+        title: 'O começo confere e o resto não?',
+        text: 'Confira se o contador começa em zero e só aumenta depois de uma letra de A a Z. Se a primeira palavra sair certa e as seguintes erradas, o contador provavelmente está contando espaços.'
       }
     ],
+    retry: 'Se o começo confere e o resto não, confiram onde o deslocamento muda: a cada quatro letras, sem contar espaços.',
     links: [
-      { label: 'Math.floor()', url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/floor' },
-      { label: 'Math.abs()', url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/abs' }
+      { label: 'Math.floor()', url: 'https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Math/floor' },
+      { label: 'Operadores aritméticos', url: 'https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Guide/Expressions_and_operators' }
     ]
   },
   {
@@ -91,7 +95,7 @@ export const GATE_GUIDES = [
     brief: 'O último recado passou por dois mecanismos. Leia como ele foi cifrado e descubra em que ordem seu programa deve desfazer os passos.',
     instructions: [
       'Na hora de cifrar, a primeira etapa inverteu as letras dentro de cada trecho contínuo de A a Z. Espaços e sinais separam trechos e ficam no lugar. Por exemplo, "SOL, LUA!" vira "LOS, AUL!" nessa etapa.',
-      'Só depois veio o giro do terceiro portão, com Math.abs(-2) mais o número do bloco. O contador de letras começou em zero e continuou do início ao fim do recado.',
+      'Só depois veio o giro do terceiro portão: 2 mais o número do bloco. O contador de letras começou em zero e continuou do início ao fim do recado.',
       'Crie uma função para lidar com a inversão dos trechos. Combine-a com a função que seu grupo já escreveu para o terceiro portão e use o programa para recuperar a frase inteira.'
     ],
     concept: {
@@ -106,12 +110,17 @@ export const GATE_GUIDES = [
       {
         title: 'Como guardar um trecho?',
         text: 'Ao percorrer o texto, experimente juntar as letras de A a Z até encontrar um separador. Um trecho pode virar vetor de caracteres, mudar de ordem e voltar a ser string. Veja também o que acontece quando a frase termina em letra.'
+      },
+      {
+        title: 'E se o giro for grande?',
+        text: 'Este recado tem mais de 100 letras, então o deslocamento passa de 26. Uma volta completa tem 26 letras: compare um teste com deslocamento 27 e outro com deslocamento 1 e confira se sua função trata voltas completas.'
       }
     ],
+    retry: 'Confiram a ordem das camadas e se o contador de letras seguiu do início ao fim do recado.',
     links: [
-      { label: 'String.split()', url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split' },
-      { label: 'Array.reverse()', url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reverse' },
-      { label: 'Array.join()', url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join' }
+      { label: 'String.split()', url: 'https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/String/split' },
+      { label: 'Array.reverse()', url: 'https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/reverse' },
+      { label: 'Array.join()', url: 'https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/join' }
     ]
   }
 ];

@@ -117,6 +117,19 @@ output {
   overflow-wrap: anywhere;
 }
 
+select {
+  display: block;
+  width: 100%;
+  min-height: 2.75rem;
+  margin-block-end: 1rem;
+  padding: 0.5rem var(--space-starter-field);
+  border: 1px solid var(--field-starter-line);
+  border-radius: 0;
+  background: var(--surface-starter-paper);
+  color: var(--text-starter-paper);
+  font: inherit;
+}
+
 button {
   min-height: 2.75rem;
   margin-block-start: 0.75rem;
@@ -133,7 +146,7 @@ button:hover {
   background: var(--action-starter-hover);
 }
 
-button:focus-visible, textarea:focus-visible {
+button:focus-visible, textarea:focus-visible, select:focus-visible {
   outline: 3px solid var(--border-starter-focus);
   outline-offset: 3px;
 }
@@ -141,6 +154,13 @@ button:focus-visible, textarea:focus-visible {
 #estado {
   margin-block-start: 0.75rem;
   overflow-wrap: anywhere;
+}
+
+#estado.aviso {
+  padding-inline-start: 0.75rem;
+  border-inline-start: 4px solid var(--surface-starter-action);
+  color: var(--p-starter-rust-deep);
+  font-weight: 700;
 }
 
 @media (max-width: 43rem) {

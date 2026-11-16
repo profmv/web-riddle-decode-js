@@ -1,0 +1,111 @@
+/* Final challenge page: extra styles only. Base look comes from ../assets/style.css.
+   Uses custom properties from ../assets/tokens.css exclusively. */
+
+.back-link { display: inline-flex; }
+
+.section-block {
+  margin-top: var(--space-8);
+  padding: clamp(1rem, 3vw, 2rem);
+  background: var(--surface-raised);
+  border: 1px solid var(--card-rule);
+  min-width: 0;
+}
+.section-block:first-of-type { margin-top: var(--space-6); }
+.section-block h2 { margin-block: var(--space-1) var(--space-3); font-size: clamp(var(--step-3), 5vw, 2.75rem); }
+.section-block > p { max-width: 64ch; }
+.section-block h3 { margin-top: 0; }
+
+.mission-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+  padding: 0;
+  list-style: none;
+  counter-reset: mission;
+}
+.mission-grid li {
+  position: relative;
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  background: var(--surface-secondary);
+  border-top: var(--space-1) solid var(--action-link);
+  counter-increment: mission;
+  overflow-wrap: anywhere;
+}
+.mission-grid li::before {
+  content: counter(mission, decimal-leading-zero);
+  display: block;
+  margin-bottom: var(--space-1);
+  color: var(--action-primary);
+  font: 600 var(--step-1)/1 var(--font-mono);
+}
+
+.rules { margin-top: var(--space-4); padding-inline-start: var(--space-6); max-width: 70ch; }
+.rules li + li { margin-top: var(--space-3); }
+.rules li::marker { color: var(--action-primary); font: 600 1rem var(--font-mono); }
+
+.ideas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+.ideas li { min-width: 0; padding: var(--space-4); background: var(--surface-primary); border: 1px solid var(--card-rule); }
+.ideas h3 { margin-top: var(--space-1); }
+.ideas p { margin-top: var(--space-2); }
+.level { color: var(--text-secondary); }
+
+.example {
+  margin-top: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface-secondary);
+  font: 500 0.875rem/1.5 var(--font-mono);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.tips { margin-top: var(--space-4); padding-inline-start: var(--space-5); max-width: 70ch; }
+.tips li + li { margin-top: var(--space-3); }
+.tips li::marker { color: var(--action-primary); }
+
+.code-block {
+  margin: var(--space-3) 0 0;
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-inverse);
+  color: var(--text-inverse);
+  font-size: 0.875rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.section-block code, .kit code { overflow-wrap: anywhere; }
+
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); margin-top: var(--space-4); padding: 0; list-style: none; }
+.facts li { min-width: 0; padding: var(--space-4); background: var(--card-guide-bg); border-top: var(--space-1) solid var(--action-link); }
+.facts b { display: block; margin-bottom: var(--space-1); font: 700 var(--step-1)/1.2 var(--font-display); }
+
+.kit.section-kit { margin-top: var(--space-8); }
+
+.sheet { margin-top: var(--space-8); }
+.sheet-list { display: grid; gap: var(--space-3); margin: 0; padding: 0 var(--space-3) var(--space-4); list-style: none; max-width: 70ch; }
+.sheet-list li { display: grid; gap: var(--space-1); }
+.sheet-list span { font-weight: 700; }
+.sheet-list i { display: block; min-height: 2rem; border-bottom: 1px solid var(--border-control); }
+.sheet-hint { padding: 0 var(--space-3) var(--space-4); color: var(--text-secondary); }
+
+@media (max-width: 52rem) {
+  .mission-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 36rem) {
+  .mission-grid, .ideas, .facts { grid-template-columns: minmax(0, 1fr); }
+  .section-block { margin-top: var(--space-5); }
+}
+
+@media print {
+  .skip-link, .masthead, .section-block, .kit, .footer { display: none !important; }
+  .sheet { display: block !important; margin: 0; border: 0; }
+}
+
+a.button { display: inline-flex; align-items: center; text-decoration: none; }

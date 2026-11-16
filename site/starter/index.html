@@ -6,16 +6,25 @@
   <title>Meu decodificador JavaScript</title>
   <link rel="stylesheet" href="./style.css">
   <script src="./decoder.js" defer></script>
+  <script src="./kit.js" defer></script>
 </head>
 <body>
   <main>
     <header>
       <h1>Meu decodificador</h1>
-      <p>Implemente a função <code>decodificar</code> em <code>decoder.js</code>. Salve o arquivo e recarregue esta página para testar cada versão.</p>
+      <p>Escolham o portão na lista abaixo e escrevam a função <code>decodificarPortaoN</code> correspondente (por exemplo, <code>decodificarPortao1</code>) em <code>decoder.js</code>. Salvem o arquivo e recarreguem esta página para testar cada versão. O arquivo <code>kit.js</code> cuida do resto.</p>
     </header>
 
     <div class="folhas">
       <form id="formulario" class="folha">
+        <label for="portao">Portão</label>
+        <select id="portao">
+          <option value="1">Portão 1 - A roda de César</option>
+          <option value="2">Portão 2 - A chave que se repete</option>
+          <option value="3">Portão 3 - A marcha dos blocos</option>
+          <option value="4">Portão 4 - O recado em duas camadas</option>
+        </select>
+
         <label for="cifra">Mensagem cifrada</label>
         <textarea id="cifra" rows="5" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
         <button type="submit">Executar meu código</button>
