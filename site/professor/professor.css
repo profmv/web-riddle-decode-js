@@ -1,0 +1,133 @@
+/* Teacher board: extra styles only. Base look comes from ../assets/style.css.
+   Uses custom properties from ../assets/tokens.css exclusively. */
+
+.back-link { display: inline-flex; }
+
+main > section { margin-top: var(--space-8); min-width: 0; }
+main > section:first-child { margin-top: var(--space-6); }
+main > section h2 { margin-block: var(--space-1) var(--space-3); font-size: clamp(var(--step-3), 5vw, 2.75rem); }
+main > section > p { max-width: 64ch; }
+main > section .gate-label { color: var(--action-link); }
+
+.mono { font-family: var(--font-mono); overflow-wrap: anywhere; }
+.note { color: var(--text-secondary); }
+
+.slip {
+  padding: clamp(1rem, 3vw, 2rem);
+  background: var(--surface-raised);
+  border-block: 2px dashed var(--border-control);
+}
+
+/* Form */
+.team-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  gap: var(--space-4);
+  align-items: start;
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-paper);
+}
+.field { min-width: 0; }
+.field label { display: block; font-weight: 700; }
+.field input {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  margin-block: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--input-border);
+  color: var(--text-primary);
+  background: var(--input-bg);
+  font-family: var(--font-mono);
+}
+.field input[aria-invalid='true'] { border: 2px solid var(--status-error); }
+.help { margin: 0; color: var(--text-secondary); font-size: 0.875rem; }
+.form-actions { align-self: start; padding-top: calc(1.5em + var(--space-2)); }
+.form-status:not(:empty) {
+  max-width: 64ch;
+  margin-top: var(--space-4);
+  padding: var(--space-2) var(--space-3);
+  border-left: var(--space-1) solid var(--action-link);
+  background: var(--surface-note);
+  font-weight: 600;
+}
+.form-status.is-error:not(:empty) {
+  color: var(--status-error);
+  background: var(--status-error-surface);
+  border-left-color: var(--status-error);
+}
+
+/* Board */
+.summary { font-weight: 600; }
+.summary p { margin: 0; }
+.gate-avg {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: var(--space-3);
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+  font-weight: 400;
+}
+.gate-avg li {
+  padding: var(--space-3);
+  background: var(--surface-raised);
+  border: 1px solid var(--border-paper);
+}
+.gate-avg li.is-hardest { border: 2px solid var(--text-primary); }
+.gate-avg b { display: block; font-family: var(--font-display); font-size: var(--step-1); }
+.gate-avg .num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.gate-avg .flag {
+  display: block;
+  margin-top: var(--space-1);
+  color: var(--status-error);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+}
+.empty {
+  padding: var(--space-4);
+  background: var(--surface-note);
+  border: 1px dashed var(--border-control);
+}
+
+.table-wrap {
+  position: relative; /* contains the absolute .sr-only header text */
+  margin-top: var(--space-4);
+  max-width: 100%;
+  overflow-x: auto;
+  background: var(--surface-raised);
+  border: 1px solid var(--border-paper);
+}
+.table-wrap table { width: 100%; min-width: 44rem; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+caption { padding: var(--space-3); text-align: left; color: var(--text-secondary); font-weight: 600; }
+th, td { padding: var(--space-2) var(--space-3); text-align: left; border-top: 1px solid var(--border-paper); vertical-align: middle; }
+thead th { border-top: 2px solid var(--border-control); font-family: var(--font-display); font-size: var(--step-1); }
+th .sub { display: block; color: var(--text-secondary); font: 400 0.75rem/1.3 var(--font-sans); }
+tbody th { font-weight: 700; overflow-wrap: anywhere; max-width: 14rem; }
+td { font-family: var(--font-mono); }
+td.is-hardest { font-weight: 700; text-decoration: underline; text-underline-offset: 0.2em; }
+.col-action { width: 1%; }
+
+.board-actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-4); }
+.storage-note:not(:empty) {
+  max-width: 64ch;
+  margin-top: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  color: var(--status-error);
+  background: var(--status-error-surface);
+}
+
+@media (max-width: 52rem) {
+  .team-form { grid-template-columns: minmax(0, 1fr); }
+  .form-actions { padding-top: 0; }
+}
+
+@media print {
+  .skip-link, .back-link, .signal-mark, .masthead-tools, #registro, .board-actions, .col-action, .row-remove, .footer .button, dialog, .storage-note { display: none !important; }
+  .table-wrap { overflow: visible; border-color: var(--text-primary); }
+  .table-wrap table { min-width: 0; }
+  main > section { margin-top: var(--space-4); }
+}

@@ -2,9 +2,12 @@ import { GATE_GUIDES } from './gates.js';
 import { PUZZLES } from './puzzles.mjs';
 import { answerDigest, normalizeAnswer, readProgress } from './validation.mjs';
 import { createWheel } from './wheel.mjs';
+import { encodeResult } from './codigo.mjs';
+import { linkTerms } from './glossario.mjs';
 
 const total = GATE_GUIDES.length;
 const storageKey = 'estacao-cifra:gate:v1';
+const statsKey = 'estacao-cifra:stats:v1';
 const byId = id => document.getElementById(id);
 const bootStatus = byId('boot-status');
 const game = byId('game');
@@ -32,6 +35,34 @@ let lastOpened = -1;
 let freshStamp = false;
 let enterTimer = 0;
 let enterTarget = null;
+let celebrate = false;
+// Per gate: wrong attempts and the set of hint indexes opened while the gate was current.
+let stats = emptyStats();
+
+function emptyStats() {
+  return { wrong: Array(total).fill(0), hints: Array.from({ length: total }, () => []) };
+}
+
+// Accepts missing or corrupt JSON; hints may be index arrays or plain counts.
+function parseStats(raw) {
+  const result = emptyStats();
+  try {
+    const data = JSON.parse(raw);
+    for (let i = 0; i < total; i += 1) {
+      const wrong = Math.trunc(Number(data.wrong[i]));
+      if (Number.isFinite(wrong) && wrong > 0) result.wrong[i] = wrong;
+      const hints = data.hints[i];
+      if (Array.isArray(hints)) {
+        result.hints[i] = [...new Set(hints.map(Number).filter(n => Number.isInteger(n) && n >= 0 && n < 50))];
+      } else if (Number.isInteger(hints) && hints > 0) {
+        result.hints[i] = Array.from({ length: Math.min(hints, 50) }, (_, n) => n);
+      }
+    }
+  } catch {
+    return emptyStats();
+  }
+  return result;
+}
 
 function element(tag, value) {
   const item = document.createElement(tag);
@@ -126,8 +157,16 @@ function renderGate() {
   setLabel(byId('copy'), 'copy', 'Copiar mensagem');
 
   byId('instructions').replaceChildren(...guide.instructions.map(line => element('li', line)));
-  byId('hints').replaceChildren(...guide.hints.map(({ title, text, code }) => {
+  const hintGate = view;
+  byId('hints').replaceChildren(...guide.hints.map(({ title, text, code }, hintIndex) => {
     const hint = element('details');
+    hint.addEventListener('toggle', () => {
+      // Only hints opened on the current gate count; reviewing old gates does not.
+      if (!hint.open || hintGate !== stage || stage === total) return;
+      if (stats.hints[hintGate].includes(hintIndex)) return;
+      stats.hints[hintGate].push(hintIndex);
+      saveStats();
+    });
     const body = element('div');
     body.className = 'hint-body';
     body.append(element('p', text));
@@ -164,6 +203,7 @@ function renderGate() {
   answerForm.hidden = reviewing;
   byId('review').hidden = !reviewing;
   setLabel(byId('return'), 'back', stage === total ? 'Voltar ao encerramento' : 'Voltar ao portão atual');
+  linkTerms([byId('gate-brief'), byId('concept-text'), byId('instructions'), byId('hints')]);
 }
 
 function openView(index, { focus = true } = {}) {
@@ -173,8 +213,12 @@ function openView(index, { focus = true } = {}) {
   renderRoute();
   workbench.hidden = view === total;
   completion.hidden = view !== total;
+  completion.classList.remove('is-celebrating');
   if (view !== total) renderGate();
-  else wheel.stop();
+  else {
+    wheel.stop();
+    renderCompletion();
+  }
   if (focus) byId(view === total ? 'completion-title' : 'gate-title').focus();
 }
 
@@ -188,6 +232,111 @@ function saveStage() {
   } catch {
     storageUnavailable();
   }
+}
+
+function saveStats() {
+  try {
+    localStorage.setItem(statsKey, JSON.stringify(stats));
+  } catch {
+    storageUnavailable();
+  }
+}
+
+function plural(count, one, many) {
+  return `${count} ${count === 1 ? one : many}`;
+}
+
+function renderCompletion() {
+  const counts = stats.hints.map(list => list.length);
+  byId('summary-list').replaceChildren(...GATE_GUIDES.map((_, index) => {
+    const item = element('li');
+    item.append(
+      element('b', `Portão ${index + 1}`),
+      element('span', plural(stats.wrong[index], 'erro', 'erros')),
+      element('span', plural(counts[index], 'dica aberta', 'dicas abertas')),
+    );
+    return item;
+  }));
+  const wrongTotal = stats.wrong.reduce((sum, n) => sum + n, 0);
+  const hintTotal = counts.reduce((sum, n) => sum + n, 0);
+  byId('summary-total').textContent = wrongTotal + hintTotal === 0
+    ? 'Nenhum erro e nenhuma dica: a equipe decifrou tudo de primeira!'
+    : `No total: ${plural(wrongTotal, 'erro', 'erros')} e ${plural(hintTotal, 'dica aberta', 'dicas abertas')}. Errar e pedir ajuda fazem parte de decifrar: cada tentativa ensinou algo.`;
+  byId('completion-code').textContent = encodeResult({ wrong: stats.wrong, hints: counts });
+  const codeStatus = byId('code-status');
+  codeStatus.textContent = '';
+  codeStatus.classList.add('sr-only');
+  setLabel(byId('copy-code'), 'copy', 'Copiar código');
+  if (celebrate) {
+    celebrate = false;
+    replay(completion, 'is-celebrating');
+  }
+}
+
+async function copyCode() {
+  const code = byId('completion-code');
+  const status = byId('code-status');
+  try {
+    await navigator.clipboard.writeText(code.textContent);
+    setLabel(byId('copy-code'), 'check', 'Código copiado');
+    status.classList.add('sr-only');
+    status.textContent = 'Código copiado. Mostrem ou enviem o código com o nome da equipe.';
+  } catch {
+    const range = document.createRange();
+    range.selectNodeContents(code);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    status.classList.remove('sr-only');
+    status.textContent = 'Código selecionado. Use Ctrl+C ou o menu de cópia.';
+  }
+}
+
+const SCRAMBLE_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const randomLetter = () => SCRAMBLE_LETTERS[Math.floor(Math.random() * SCRAMBLE_LETTERS.length)];
+
+// Turns the ciphertext into the typed text, left to right. The text comes only from the textarea value.
+function decipher(plain) {
+  const finalChars = Array.from(plain);
+  const startChars = Array.from(ciphertext.textContent);
+  ciphertext.setAttribute('aria-hidden', 'true');
+  ciphertext.setAttribute('aria-busy', 'true');
+  const finish = () => {
+    ciphertext.textContent = plain;
+    ciphertext.removeAttribute('aria-hidden');
+    ciphertext.removeAttribute('aria-busy');
+  };
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    ciphertext.textContent = plain;
+    return new Promise(resolve => setTimeout(() => { finish(); resolve(); }, 400));
+  }
+  const duration = 1200;
+  const settle = 300; // each letter scrambles for this long (3 steps) before it settles
+  const step = settle / 3;
+  const count = Math.max(finalChars.length, 1);
+  const isLetter = char => /\p{L}/u.test(char);
+  const picks = finalChars.map(() => [randomLetter(), randomLetter(), randomLetter()]);
+  return new Promise(resolve => {
+    const begin = performance.now();
+    const frame = now => {
+      const elapsed = now - begin;
+      if (elapsed >= duration) {
+        finish();
+        resolve();
+        return;
+      }
+      ciphertext.textContent = finalChars.map((char, index) => {
+        if (!isLetter(char)) return char;
+        const from = (index / count) * (duration - settle);
+        const local = elapsed - from;
+        if (local >= settle) return char;
+        if (local < 0) return startChars[index] ?? picks[index][0];
+        return picks[index][Math.min(2, Math.floor(local / step))];
+      }).join('');
+      requestAnimationFrame(frame);
+    };
+    requestAnimationFrame(frame);
+  });
 }
 
 async function copyCiphertext() {
@@ -252,6 +401,12 @@ async function explainMismatch(value) {
   return parts.join(' ');
 }
 
+function unlockChecking() {
+  checking = false;
+  submit.disabled = false;
+  reset.disabled = false;
+}
+
 async function checkAnswer(event) {
   event.preventDefault();
   if (checking || view !== stage || stage === total) return;
@@ -267,20 +422,29 @@ async function checkAnswer(event) {
   let matches = false;
   try {
     matches = await answerDigest(value) === PUZZLES[stage].digest;
-    if (!matches) showAnswerError(await explainMismatch(value));
+    if (!matches) {
+      stats.wrong[stage] += 1;
+      saveStats();
+      showAnswerError(await explainMismatch(value));
+    }
   } catch {
     answerStatus.textContent = 'O navegador não conseguiu conferir a mensagem. Atualizem a página e tentem novamente.';
     answer.focus();
   } finally {
-    checking = false;
-    submit.disabled = false;
-    reset.disabled = false;
+    // On a match the controls stay locked until the decipher animation ends.
+    if (!matches) unlockChecking();
   }
 
   if (matches) {
+    try {
+      await decipher(value.trim());
+    } finally {
+      unlockChecking();
+    }
     stage += 1;
     lastOpened = stage - 1;
     freshStamp = true;
+    celebrate = stage === total;
     saveStage();
     openView(stage);
     enter(stage === total ? completion : workbench);
@@ -295,10 +459,12 @@ function start() {
   }
   try {
     stage = readProgress(localStorage.getItem(storageKey), total);
+    stats = parseStats(localStorage.getItem(statsKey));
   } catch {
     storageUnavailable();
   }
   byId('copy').addEventListener('click', copyCiphertext);
+  byId('copy-code').addEventListener('click', copyCode);
   answerForm.addEventListener('submit', checkAnswer);
   answer.addEventListener('animationend', () => answer.classList.remove('is-wrong'));
   answerStatus.addEventListener('animationend', () => answerStatus.classList.remove('is-fresh'));
@@ -317,7 +483,9 @@ function start() {
     if (resetDialog.returnValue !== 'reset') return;
     stage = 0;
     lastOpened = -1;
+    stats = emptyStats();
     saveStage();
+    saveStats();
     openView(stage);
     announce('Percurso reiniciado.');
   });

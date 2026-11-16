@@ -1,0 +1,41 @@
+/* Masthead brand: station roundel and telegraph key illustration. Tokens only. */
+.brand-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-block-end: var(--space-3);
+}
+.brand-row h1 { margin-block: 0; min-width: 0; }
+.emblem {
+  flex: none;
+  width: clamp(3.5rem, 8vw, 5.5rem);
+  height: auto;
+  color: var(--text-inverse);
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.emblem .ink, .key-art .ink { stroke: currentColor; }
+.emblem .acc, .key-art .acc { stroke: var(--surface-note); }
+.emblem .acc-fill, .key-art .acc-fill { fill: var(--surface-note); stroke: none; }
+.emblem .acc { stroke-linecap: butt; }
+
+.key-art {
+  display: block;
+  width: clamp(11rem, 20vw, 14rem);
+  height: auto;
+  color: var(--text-inverse);
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.key-art .tape-feed { stroke: var(--surface-note); }
+
+@media (max-width: 36rem) {
+  .brand-row { flex-direction: column; align-items: flex-start; gap: var(--space-2); }
+  .emblem { width: 3.25rem; }
+  .key-art { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .emblem, .key-art { transition: none; animation: none; }
+}

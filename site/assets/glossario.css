@@ -1,0 +1,115 @@
+/* Inline glossary terms and the shared paper-slip popover. Tokens only. */
+
+.term {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: inherit;
+  text-decoration: underline dotted;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--action-link);
+  cursor: help;
+}
+
+.term:hover,
+.term[aria-expanded='true'] {
+  background: var(--surface-secondary);
+}
+
+.term:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.term-pop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 40;
+  box-sizing: border-box;
+  width: max-content;
+  max-width: min(18rem, calc(100vw - 1.5rem));
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border-paper);
+  border-top: 3px solid var(--action-link);
+  background: var(--surface-raised);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  box-shadow: var(--shadow-lift);
+  overflow-wrap: anywhere;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px);
+  transition:
+    opacity var(--dur-micro) var(--ease-out),
+    transform var(--dur-micro) var(--ease-out),
+    visibility 0s linear var(--dur-micro);
+}
+
+.term-pop[data-side='above'] {
+  transform: translateY(-4px);
+}
+
+.term-pop[data-open='true'] {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 0s;
+}
+
+.term-pop[data-instant='true'] {
+  transition: none;
+}
+
+.term-pop-title {
+  display: block;
+  margin-bottom: var(--space-1);
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+}
+
+.term-pop-text {
+  display: block;
+}
+
+.term-pop-code {
+  margin: var(--space-2) 0 0;
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface-secondary);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .term-pop,
+  .term-pop[data-side='above'] {
+    transform: none;
+    transition: opacity var(--dur-micro) linear, visibility 0s linear var(--dur-micro);
+  }
+}
+
+@media (forced-colors: active) {
+  .term {
+    text-decoration-color: LinkText;
+  }
+  .term-pop {
+    border: 1px solid CanvasText;
+  }
+}

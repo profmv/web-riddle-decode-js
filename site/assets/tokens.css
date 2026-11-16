@@ -1,4 +1,5 @@
 :root {
+  color-scheme: light dark;
   --p-paper: #f7f0e4;
   --p-paper: oklch(0.957 0.018 79);
   --p-white: #fffaf0;
@@ -88,4 +89,57 @@
     linear-gradient(90deg, var(--paper-grid) 1px, transparent 1px);
   --paper-cell: 1.5rem;
   --stamp-ink: var(--action-primary);
+}
+
+/* Night telegraph desk: automatic dark mode. Only color tokens change. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface-primary: #111b26;
+    --surface-raised: #192636;
+    --surface-secondary: #223245;
+    --surface-note: #1a2c3a;
+    --surface-inverse: #0a121a;
+    --text-primary: #f1e8d6;
+    --text-secondary: #b4c0cc;
+    --text-inverse: #f1e8d6;
+    --border-paper: #4a6076;
+    --border-control: #8497aa;
+    --action-primary: #e58a66;
+    --action-hover: #f0a487;
+    --action-link: #8fc1e3;
+    --status-error: #ffa68c;
+    --status-error-surface: #3a211c;
+    --status-success: #8fd0a8;
+    --status-success-surface: #183024;
+    --btn-ink: #111b26;
+    --shadow-lift: 0 4px 10px -4px color-mix(in srgb, #000 70%, transparent);
+    --paper-grid: color-mix(in srgb, #8497aa 14%, transparent);
+  }
+}
+
+/* Print always uses the light theme values. */
+@media print {
+  :root {
+    color-scheme: light;
+    --surface-primary: var(--p-paper);
+    --surface-raised: var(--p-white);
+    --surface-secondary: var(--p-sand);
+    --surface-note: var(--p-blue-paper);
+    --surface-inverse: var(--p-ink);
+    --text-primary: var(--p-ink);
+    --text-secondary: var(--p-slate);
+    --text-inverse: var(--p-white);
+    --border-paper: var(--p-line);
+    --border-control: var(--p-control-line);
+    --action-primary: var(--p-rust);
+    --action-hover: var(--p-rust-dark);
+    --action-link: var(--p-indigo);
+    --status-error: var(--p-rust-dark);
+    --status-error-surface: var(--p-error-paper);
+    --status-success: var(--p-green);
+    --status-success-surface: var(--p-green-paper);
+    --btn-ink: var(--text-inverse);
+    --shadow-lift: 0 4px 10px -4px color-mix(in srgb, var(--p-ink) 40%, transparent);
+    --paper-grid: color-mix(in srgb, var(--p-line) 28%, transparent);
+  }
 }

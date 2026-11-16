@@ -7,9 +7,12 @@
   <meta name="theme-color" content="#172c3e">
   <title>Estação Cifra | Desafio de JavaScript</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=DM+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/tokens.css">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/wheel.css">
+  <link rel="stylesheet" href="assets/brand.css">
+  <link rel="stylesheet" href="assets/glossario.css">
   <script type="module" src="app.mjs"></script>
 </head>
 <body>
@@ -29,10 +32,14 @@
   <header class="masthead">
     <div class="frame masthead-inner">
       <div>
-        <h1>Estação Cifra<span class="masthead-dot" aria-hidden="true"></span></h1>
+        <div class="brand-row">
+          <svg class="emblem" viewBox="0 0 96 96" aria-hidden="true" focusable="false"><circle class="ink" cx="48" cy="48" r="45" stroke-width="3"/><circle class="acc" cx="48" cy="48" r="37" stroke-width="6" pathLength="72" stroke-dasharray="1 1"/><circle class="ink" cx="48" cy="48" r="29" stroke-width="2"/><circle class="acc-fill" cx="39" cy="37" r="2.5"/><rect class="acc-fill" x="45" y="35.5" width="14" height="3" rx="1.5"/><path class="ink" d="M29 61l36-7M48 57.5V68M36 68h24" stroke-width="3"/><circle class="acc-fill" cx="29" cy="61" r="4"/></svg>
+          <h1>Estação Cifra<span class="masthead-dot" aria-hidden="true"></span></h1>
+        </div>
         <p class="deck">Quatro portões, um decodificador. Desvendem as mensagens em dupla ou trio, programando no VS Code.</p>
       </div>
       <div class="masthead-tools">
+        <svg class="key-art" viewBox="0 0 220 96" aria-hidden="true" focusable="false" stroke-width="2"><path class="ink" d="M6 8h208v26H6z"/><path class="tape-feed" d="M6 21h208" stroke-width="3" stroke-dasharray="0.1 8"/><path class="tape-feed" d="M30 14h.1M46 28h.1M78 14h.1M86 28h.1M126 14h.1M158 28h.1M190 14h.1" stroke-width="5"/><path class="ink" d="M130 58C176 56 176 46 176 34M30 90v-8h92v8M76 82V72M34 68l92-10"/><circle class="acc-fill" cx="34" cy="66" r="8"/></svg>
         <span class="signal-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
         <a class="kit-jump" href="#kit"><svg class="icon icon-file" aria-hidden="true" focusable="false"><use href="#i-file"/></svg>Kit para o VS Code</a>
       </div>
@@ -104,9 +111,21 @@
         <p class="eyebrow gate-label">4 de 4 portões abertos</p>
         <h2 id="completion-title" tabindex="-1">Transmissão decifrada!</h2>
         <p>Mostrem o programa à turma. Expliquem em que ordem desfizeram as duas camadas e qual teste ajudou a decidir.</p>
+        <section class="completion-summary" aria-labelledby="summary-title">
+          <h3 id="summary-title">Resumo da equipe</h3>
+          <ul id="summary-list" class="summary-list"></ul>
+          <p id="summary-total" class="summary-total"></p>
+        </section>
+        <section class="completion-code" aria-labelledby="code-title">
+          <h3 id="code-title">Código da equipe</h3>
+          <p class="code-value"><code id="completion-code"></code></p>
+          <button type="button" id="copy-code" class="button button-small"><svg class="icon icon-copy" aria-hidden="true" focusable="false"><use href="#i-copy"/></svg><span>Copiar código</span></button>
+          <p id="code-status" class="code-status sr-only" role="status"></p>
+          <p>Mostrem este código à professora ou ao professor, ou enviem junto com o nome da equipe.</p>
+        </section>
         <div class="completion-next">
           <h3>Próxima missão: criem a sua cifra</h3>
-          <p>Agora a sua dupla inventa a regra, programa a cifra e desafia as outras equipes a desvendarem a mensagem.</p>
+          <p>Agora a sua equipe inventa a regra, programa a cifra e desafia as outras equipes a desvendarem a mensagem.</p>
           <div class="completion-actions">
             <a class="button button-primary" href="desafio-final/">Abrir o desafio final<svg class="icon icon-route" aria-hidden="true" focusable="false"><use href="#i-route"/></svg></a>
             <button id="review-final" class="button" type="button"><svg class="icon icon-back" aria-hidden="true" focusable="false"><use href="#i-back"/></svg>Revisar o último portão</button>
@@ -136,6 +155,7 @@
       </details>
       <footer class="footer">
         <p id="storage-note">O progresso fica neste navegador.</p>
+        <a class="footer-link" href="professor/">Área do professor</a>
         <button type="button" id="reset" class="button button-text"><svg class="icon icon-reset" aria-hidden="true" focusable="false"><use href="#i-reset"/></svg>Reiniciar percurso</button>
       </footer>
     </div>
