@@ -1,0 +1,150 @@
+:root {
+  /* Primitives */
+  --p-starter-cream: #f3ecdc;
+  --p-starter-sheet: #fffaf1;
+  --p-starter-blue: #203042;
+  --p-starter-line: #737884;
+  --p-starter-rust: #8b371e;
+  --p-starter-rust-deep: #6d2b18;
+  --p-starter-unit: 0.25rem;
+  --p-starter-display: "Instrument Serif", Georgia, serif;
+  --p-starter-sans: "Atkinson Hyperlegible Next", system-ui, sans-serif;
+  --p-starter-mono: "IBM Plex Mono", Consolas, monospace;
+
+  /* Semantic roles */
+  --surface-starter-page: var(--p-starter-cream);
+  --text-starter-page: var(--p-starter-blue);
+  --surface-starter-paper: var(--p-starter-sheet);
+  --text-starter-paper: var(--p-starter-blue);
+  --surface-starter-action: var(--p-starter-rust);
+  --text-starter-action: var(--p-starter-sheet);
+  --action-starter-hover: var(--p-starter-rust-deep);
+  --border-starter-field: var(--p-starter-line);
+  --border-starter-focus: var(--p-starter-rust);
+  --space-starter-page: clamp(1rem, 5vw, 3rem);
+  --space-starter-field: calc(3 * var(--p-starter-unit));
+
+  /* Components */
+  --panel-starter-padding: clamp(1rem, 3vw, 1.5rem);
+  --panel-starter-paper: var(--surface-starter-paper);
+  --field-starter-line: var(--border-starter-field);
+  --button-starter-fill: var(--surface-starter-action);
+  --button-starter-ink: var(--text-starter-action);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: var(--space-starter-page);
+  background: var(--surface-starter-page);
+  color: var(--text-starter-page);
+  font: 1rem/1.55 var(--p-starter-sans);
+  font-variant-numeric: tabular-nums;
+}
+
+main {
+  width: min(100%, 62rem);
+  margin-inline: auto;
+}
+
+header {
+  margin-block-end: 2rem;
+  padding-block: 1.25rem;
+  border-block: 2px solid var(--text-starter-page);
+}
+
+h1 {
+  margin: 0 0 0.5rem;
+  font: 600 clamp(2rem, 5vw, 3.5rem)/1.02 var(--p-starter-display);
+}
+
+h2, label {
+  display: block;
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+p {
+  margin: 0;
+}
+
+code, textarea, output {
+  font-family: var(--p-starter-mono);
+}
+
+.folhas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.folha {
+  min-width: 0;
+  padding: var(--panel-starter-padding);
+  border: 1px solid var(--field-starter-line);
+  background: var(--panel-starter-paper);
+}
+
+.folha-resultado {
+  border-block-start: 4px double var(--field-starter-line);
+}
+
+textarea, output {
+  display: block;
+  width: 100%;
+  min-height: 9rem;
+  padding: var(--space-starter-field);
+  color: var(--text-starter-paper);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+textarea {
+  border: 1px solid var(--field-starter-line);
+  border-radius: 0;
+  background: var(--surface-starter-paper);
+  resize: vertical;
+}
+
+output {
+  border-block: 1px dashed var(--field-starter-line);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+button {
+  min-height: 2.75rem;
+  margin-block-start: 0.75rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--button-starter-fill);
+  background: var(--button-starter-fill);
+  color: var(--button-starter-ink);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--action-starter-hover);
+}
+
+button:focus-visible, textarea:focus-visible {
+  outline: 3px solid var(--border-starter-focus);
+  outline-offset: 3px;
+}
+
+#estado {
+  margin-block-start: 0.75rem;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 43rem) {
+  .folhas {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

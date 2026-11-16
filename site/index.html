@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Quatro portões de JavaScript para decifrar em dupla ou trio com o VS Code.">
+  <meta name="theme-color" content="#172c3e">
+  <title>Estação Cifra | Desafio de JavaScript</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=DM+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+  <link rel="stylesheet" href="assets/tokens.css">
+  <link rel="stylesheet" href="assets/style.css">
+  <script type="module" src="app.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#desafio">Ir ao desafio</a>
+  <header class="masthead">
+    <div class="frame masthead-inner">
+      <div>
+        <p class="eyebrow masthead-label">Clube de programação <span aria-hidden="true">/</span> JavaScript</p>
+        <h1>Estação Cifra<span class="masthead-dot" aria-hidden="true"></span></h1>
+        <p class="deck">Quatro portões, um decodificador. Desvendem as mensagens em dupla ou trio, programando no VS Code.</p>
+      </div>
+      <div class="masthead-tools">
+        <span class="signal-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <a class="kit-jump" href="#kit">Kit para o VS Code</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="frame" id="desafio">
+    <p id="boot-status" class="boot-status" role="status">Preparando a transmissão...</p>
+    <noscript><p>Ative o JavaScript no navegador para jogar.</p></noscript>
+    <div id="game" hidden>
+      <nav class="route" aria-label="Rota dos quatro portões">
+        <ol id="route"></ol>
+      </nav>
+      <p id="announcement" role="status" class="sr-only"></p>
+      <div id="workbench" class="workbench">
+        <article class="challenge" aria-labelledby="gate-title">
+          <header class="challenge-header">
+            <p class="eyebrow gate-label" id="gate-label"></p>
+            <h2 id="gate-title" tabindex="-1"></h2>
+            <p id="gate-brief"></p>
+          </header>
+          <div class="telegram">
+            <div class="telegram-meta">
+              <p class="eyebrow" id="cipher-label">Mensagem cifrada</p>
+              <button type="button" id="copy" class="button button-small">Copiar mensagem</button>
+            </div>
+            <p id="ciphertext" class="ciphertext" aria-labelledby="cipher-label"></p>
+            <p id="copy-status" class="copy-status sr-only" role="status"></p>
+          </div>
+          <section class="instructions" aria-labelledby="instructions-title">
+            <h3 id="instructions-title">No VS Code</h3>
+            <ol id="instructions"></ol>
+          </section>
+          <form id="answer-form" class="answer-form" novalidate>
+            <label for="answer">Mensagem decifrada</label>
+            <p id="answer-help">Cole o resultado do seu programa e preserve a pontuação. Acentos e maiúsculas são opcionais.</p>
+            <textarea id="answer" rows="2" maxlength="500" spellcheck="false" autocomplete="off" aria-describedby="answer-help answer-status" required></textarea>
+            <div class="answer-actions">
+              <button type="submit" id="submit" class="button button-primary">Testar resposta</button>
+              <p id="answer-status" class="answer-status" role="status"></p>
+            </div>
+          </form>
+          <div id="review" class="review" hidden>
+            <p>Este portão já foi aberto. Revise o procedimento e volte à sua rota quando quiser.</p>
+            <button type="button" id="return" class="button button-primary">Voltar ao portão atual</button>
+          </div>
+        </article>
+        <aside class="guide" aria-labelledby="guide-title">
+          <header class="guide-header">
+            <h2 id="guide-title">Guia de bordo</h2>
+            <p id="gate-topic"></p>
+          </header>
+          <section class="concept" aria-labelledby="concept-title">
+            <h3 id="concept-title"></h3>
+            <p id="concept-text"></p>
+          </section>
+          <section class="hint-section" aria-labelledby="hints-title">
+            <h3 id="hints-title">Dicas sob demanda</h3>
+            <div id="hints"></div>
+          </section>
+          <section class="references" aria-labelledby="references-title">
+            <h3 id="references-title">Consulte a MDN</h3>
+            <ul id="references"></ul>
+          </section>
+        </aside>
+      </div>
+      <section id="completion" class="completion" aria-labelledby="completion-title" hidden>
+        <p class="eyebrow gate-label">4 de 4 portões abertos</p>
+        <h2 id="completion-title" tabindex="-1">Transmissão decifrada!</h2>
+        <p>Mostrem o programa à turma. Expliquem em que ordem desfizeram as duas camadas e qual teste ajudou a decidir.</p>
+        <button id="review-final" class="button" type="button">Revisar o último portão</button>
+      </section>
+      <section class="kit" id="kit" aria-labelledby="kit-title">
+        <div>
+          <h2 id="kit-title">Kit para o VS Code</h2>
+          <p>Usem os mesmos arquivos do primeiro ao último portão.</p>
+          <div class="downloads" aria-label="Arquivos do kit">
+            <a href="starter/index.html" download="index.html">index.html</a>
+            <a href="starter/style.css" download="style.css">style.css</a>
+            <a href="starter/decoder.js" download="decoder.js">decoder.js</a>
+          </div>
+        </div>
+        <ol>
+          <li>Baixem os três arquivos, guardem os nomes e coloquem tudo na mesma pasta.</li>
+          <li>Abram a pasta no VS Code e editem a função <code>decodificar(mensagem)</code> em <code>decoder.js</code>.</li>
+          <li>Abram o <code>index.html</code> do kit no navegador. Salvem e atualizem a aba a cada teste.</li>
+        </ol>
+      </section>
+      <details class="team-note">
+        <summary>Como dividir as tarefas</summary>
+        <p>Uma pessoa programa e outra lê a regra e revisa a lógica. Se houver uma terceira, ela propõe testes com espaços, pontuação e a passagem do A ao Z. Troquem os papéis a cada portão.</p>
+      </details>
+      <footer class="footer">
+        <p id="storage-note">O progresso fica neste navegador.</p>
+        <button type="button" id="reset" class="button button-text">Reiniciar percurso</button>
+      </footer>
+    </div>
+  </main>
+  <dialog id="reset-dialog" aria-labelledby="reset-title">
+    <form method="dialog">
+      <h2 id="reset-title">Reiniciar o percurso?</h2>
+      <p>Os portões voltam ao estado inicial neste navegador. Seus arquivos no VS Code continuam disponíveis.</p>
+      <div class="dialog-actions">
+        <button class="button" value="cancel" autofocus>Cancelar</button>
+        <button class="button button-primary" value="reset">Reiniciar</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>

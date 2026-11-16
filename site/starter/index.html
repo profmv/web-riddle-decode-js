@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meu decodificador JavaScript</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./decoder.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Meu decodificador</h1>
+      <p>Implemente a função <code>decodificar</code> em <code>decoder.js</code>. Salve o arquivo e recarregue esta página para testar cada versão.</p>
+    </header>
+
+    <div class="folhas">
+      <form id="formulario" class="folha">
+        <label for="cifra">Mensagem cifrada</label>
+        <textarea id="cifra" rows="5" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
+        <button type="submit">Executar meu código</button>
+      </form>
+
+      <section class="folha folha-resultado" aria-labelledby="rotulo-resultado">
+        <h2 id="rotulo-resultado">Resultado</h2>
+        <output id="resultado" for="cifra" aria-labelledby="rotulo-resultado" aria-live="off"></output>
+        <p id="estado" role="status">O texto retornado pela sua função aparecerá aqui.</p>
+      </section>
+    </div>
+
+    <noscript><p>Ative o JavaScript no navegador para executar seu código.</p></noscript>
+  </main>
+</body>
+</html>
