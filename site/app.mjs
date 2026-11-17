@@ -36,6 +36,7 @@ let freshStamp = false;
 let enterTimer = 0;
 let enterTarget = null;
 let celebrate = false;
+let legacyStats = false;
 // Per gate: wrong attempts and the set of hint indexes opened while the gate was current.
 let stats = emptyStats();
 
@@ -226,9 +227,9 @@ function storageUnavailable() {
   byId('storage-note').textContent = 'O navegador bloqueou o salvamento. Mantenham esta aba aberta para continuar.';
 }
 
-function saveStage() {
+function saveStage(value = stage) {
   try {
-    localStorage.setItem(storageKey, String(stage));
+    localStorage.setItem(storageKey, String(value));
   } catch {
     storageUnavailable();
   }
@@ -260,7 +261,9 @@ function renderCompletion() {
   const wrongTotal = stats.wrong.reduce((sum, n) => sum + n, 0);
   const hintTotal = counts.reduce((sum, n) => sum + n, 0);
   byId('summary-total').textContent = wrongTotal + hintTotal === 0
-    ? 'Nenhum erro e nenhuma dica: a equipe decifrou tudo de primeira!'
+    ? (legacyStats
+      ? 'Parte do percurso foi feita antes do registro de erros e dicas; os números podem estar incompletos.'
+      : 'Nenhum erro e nenhuma dica: a equipe decifrou tudo de primeira!')
     : `No total: ${plural(wrongTotal, 'erro', 'erros')} e ${plural(hintTotal, 'dica aberta', 'dicas abertas')}. Errar e pedir ajuda fazem parte de decifrar: cada tentativa ensinou algo.`;
   byId('completion-code').textContent = encodeResult({ wrong: stats.wrong, hints: counts });
   const codeStatus = byId('code-status');
@@ -346,7 +349,7 @@ async function copyCiphertext() {
     if (view !== copiedView) return;
     setLabel(byId('copy'), 'check', 'Mensagem copiada');
     copyStatus.classList.add('sr-only');
-    copyStatus.textContent = 'Mensagem copiada. Cole no seu projeto do VS Code.';
+    copyStatus.textContent = 'Mensagem copiada. Colem no campo "Mensagem cifrada" da página do kit.';
   } catch {
     if (view !== copiedView) return;
     const range = document.createRange();
@@ -355,7 +358,7 @@ async function copyCiphertext() {
     selection.removeAllRanges();
     selection.addRange(range);
     copyStatus.classList.remove('sr-only');
-    copyStatus.textContent = 'Mensagem selecionada. Use Ctrl+C ou o menu de cópia.';
+    copyStatus.textContent = 'Mensagem selecionada. Copiem com Ctrl+C ou o menu de cópia e colem no campo "Mensagem cifrada" da página do kit.';
   }
 }
 
@@ -436,6 +439,8 @@ async function checkAnswer(event) {
   }
 
   if (matches) {
+    // Persist first so a refresh during the animation keeps the gate open.
+    saveStage(stage + 1);
     try {
       await decipher(value.trim());
     } finally {
@@ -445,7 +450,6 @@ async function checkAnswer(event) {
     lastOpened = stage - 1;
     freshStamp = true;
     celebrate = stage === total;
-    saveStage();
     openView(stage);
     enter(stage === total ? completion : workbench);
     announce(`Portão ${stage} aberto!${stage < total ? ' Troquem os papéis na equipe e sigam para o próximo.' : ''}`);
@@ -459,7 +463,10 @@ function start() {
   }
   try {
     stage = readProgress(localStorage.getItem(storageKey), total);
-    stats = parseStats(localStorage.getItem(statsKey));
+    const rawStats = localStorage.getItem(statsKey);
+    stats = parseStats(rawStats);
+    // Progress saved before stats existed: the zero counts are unknown, not real.
+    legacyStats = stage > 0 && rawStats === null;
   } catch {
     storageUnavailable();
   }
@@ -484,6 +491,7 @@ function start() {
     stage = 0;
     lastOpened = -1;
     stats = emptyStats();
+    legacyStats = false;
     saveStage();
     saveStats();
     openView(stage);

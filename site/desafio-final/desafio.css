@@ -132,8 +132,16 @@ main > section[id] code { overflow-wrap: anywhere; }
 }
 
 @media print {
-  .skip-link, .masthead, main > section[id], .footer { display: none !important; }
+  .skip-link, .masthead, main > section[id], .footer, .sheet-hint { display: none !important; }
+  body { background: none; }
   .sheet { display: block !important; margin: 0; border: 0; }
+  /* The summary text becomes the printed title; no disclosure marker. */
+  .sheet summary { list-style: none; padding: 0 var(--space-3) var(--space-4); font: 800 var(--step-3)/1.1 var(--font-display); }
+  .sheet summary::marker { content: ''; }
+  .sheet summary::-webkit-details-marker { display: none; }
+  /* Taller writing areas for handwriting. */
+  .sheet-list dd { min-height: 1.5cm; }
+  .sheet-list dd.field-tall { min-height: 2.8cm; }
 }
 
 a.button { display: inline-flex; align-items: center; text-decoration: none; }

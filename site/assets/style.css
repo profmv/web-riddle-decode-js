@@ -434,6 +434,19 @@ dialog p { margin-top: var(--space-3); }
   to { opacity: 1; transform: none; }
 }
 
+/* Print: plain paper, no interactive chrome, no decorative grid or dark band. */
+@media print {
+  body { background: none; color: var(--text-primary); }
+  .masthead { background: none; color: var(--text-primary); border-bottom: 1px solid var(--border-control); }
+  .masthead-inner { padding-block: var(--space-4); }
+  .masthead-dot { background: var(--action-primary); }
+  .emblem, .key-art { color: var(--text-primary); }
+  .emblem .acc { stroke: var(--action-link); }
+  .emblem .acc-fill, .key-art .acc-fill { fill: var(--action-link); }
+  .skip-link, .masthead-tools, .route, button, .button, .kit, .downloads, .footer-link, .kit-jump, .announcement { display: none !important; }
+  .completion-code, .completion-summary, .summary-list { break-inside: avoid; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-delay: 0s !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }

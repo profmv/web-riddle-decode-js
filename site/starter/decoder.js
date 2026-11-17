@@ -31,8 +31,8 @@ function decodificarPortao3(mensagem) {
 
 // Portão 4 - O recado em duas camadas
 function decodificarPortao4(mensagem) {
-  // TODO: duas camadas. Primeiro desfaçam o deslocamento do portão 3.
-  // Depois invertam cada trecho contínuo de letras A-Z (palavra por palavra).
+  // TODO: duas camadas (inversão de trechos e deslocamento do portão 3).
+  // Leiam no portão como a mensagem foi cifrada e decidam a ordem.
   // Dica: reaproveitem decodificarPortao3.
   return "";
 }

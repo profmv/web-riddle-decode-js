@@ -122,6 +122,7 @@
           <button type="button" id="copy-code" class="button button-small"><svg class="icon icon-copy" aria-hidden="true" focusable="false"><use href="#i-copy"/></svg><span>Copiar código</span></button>
           <p id="code-status" class="code-status sr-only" role="status"></p>
           <p>Mostrem este código à professora ou ao professor, ou enviem junto com o nome da equipe.</p>
+          <p class="code-shared">Computador compartilhado? Depois de entregar o código, usem Reiniciar percurso no rodapé.</p>
         </section>
         <div class="completion-next">
           <h3>Próxima missão: criem a sua cifra</h3>
@@ -144,9 +145,9 @@
           </div>
         </div>
         <ol>
-          <li>Baixem os quatro arquivos, guardem os nomes e coloquem tudo na mesma pasta.</li>
+          <li>Baixem os quatro arquivos, guardem os nomes e criem uma pasta nova para o kit (por exemplo, <code>decodificador</code>). Movam os quatro arquivos para dentro dela: o kit do desafio final também usa <code>index.html</code> e <code>style.css</code>, e as duas pastas não devem se misturar.</li>
           <li>Abram a pasta no VS Code e escrevam a função do portão atual em <code>decoder.js</code>, por exemplo <code>decodificarPortao1(mensagem)</code>. O <code>kit.js</code> liga a página e não precisa ser alterado.</li>
-          <li>Abram o <code>index.html</code> do kit no navegador, escolham o portão e executem. Salvem e atualizem a aba a cada teste.</li>
+          <li>Abram o <code>index.html</code> do kit no navegador, escolham o portão, colem a mensagem cifrada e cliquem em <strong>Executar meu código</strong>. Salvem e atualizem a aba a cada teste.</li>
         </ol>
       </section>
       <details class="team-note">
@@ -163,7 +164,7 @@
   <dialog id="reset-dialog" aria-labelledby="reset-title">
     <form method="dialog">
       <h2 id="reset-title">Reiniciar o percurso?</h2>
-      <p>Os portões voltam ao estado inicial neste navegador. Seus arquivos no VS Code continuam disponíveis.</p>
+      <p>Os portões voltam ao estado inicial neste navegador. Seus arquivos no VS Code continuam disponíveis. O resumo e o código da equipe também serão apagados. Anotem o código antes.</p>
       <div class="dialog-actions">
         <button class="button" value="cancel" autofocus>Cancelar</button>
         <button class="button button-primary" value="reset"><svg class="icon icon-reset" aria-hidden="true" focusable="false"><use href="#i-reset"/></svg>Reiniciar</button>

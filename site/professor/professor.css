@@ -127,7 +127,10 @@ td.is-hardest { font-weight: 700; text-decoration: underline; text-underline-off
 
 @media print {
   .skip-link, .back-link, .signal-mark, .masthead-tools, #registro, .board-actions, .col-action, .row-remove, .footer .button, dialog, .storage-note { display: none !important; }
-  .table-wrap { overflow: visible; border-color: var(--text-primary); }
+  body { background: none; }
+  .masthead { background: none; color: var(--text-primary); }
+  .table-wrap { overflow: visible; border-color: var(--text-primary); margin-bottom: var(--space-4); }
+  .footer { margin-top: var(--space-4); }
   .table-wrap table { min-width: 0; }
   main > section { margin-top: var(--space-4); }
 }

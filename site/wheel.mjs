@@ -101,7 +101,13 @@ export function createWheel(container) {
   const caption = document.createElement('figcaption');
   caption.className = 'wheel-caption';
 
+  // Fixed rule for the gate; the rotating caption below is only an example.
+  const note = document.createElement('p');
+  note.className = 'wheel-note';
+  note.textContent = 'Neste portão o deslocamento é ' + DEFAULT_SHIFT + '.';
+
   container.appendChild(svg);
+  container.appendChild(note);
   container.appendChild(caption);
 
   const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -133,7 +139,7 @@ export function createWheel(container) {
     const y = ALFABETO[(1 + k) % N];
     shiftLabel.textContent = '+' + k;
     caption.textContent =
-      'Deslocamento ' + k + ': A vira ' + x + ', B vira ' + y + '. Para decifrar, ' + x + ' volta para A.';
+      'Exemplo com deslocamento ' + k + ': A vira ' + x + ', B vira ' + y + '. Para decifrar, ' + x + ' volta para A.';
   }
 
   function canAnimate() {
