@@ -2,14 +2,10 @@
   <style>
     .ink { stroke: var(--emblem-ink, #fffaf0); }
     .acc { stroke: var(--emblem-accent, #e2eced); }
-    .acc-fill { fill: var(--emblem-accent, #e2eced); stroke: none; }
   </style>
   <circle class="ink" cx="48" cy="48" r="45" stroke-width="3"/>
   <circle class="acc" cx="48" cy="48" r="37" stroke-width="6" pathLength="72" stroke-dasharray="1 1" stroke-linecap="butt"/>
   <circle class="ink" cx="48" cy="48" r="29" stroke-width="2"/>
-  <circle class="acc-fill" cx="39" cy="37" r="2.5"/>
-  <rect class="acc-fill" x="45" y="35.5" width="14" height="3" rx="1.5"/>
-  <path class="ink" d="M29 61l36-7" stroke-width="3"/>
-  <circle class="acc-fill" cx="29" cy="61" r="4"/>
-  <path class="ink" d="M48 57.5V68M36 68h24" stroke-width="3"/>
+  <path class="ink" d="M35 66L48 28L61 66" stroke-width="5"/>
+  <path class="acc" d="M39 54h18" stroke-width="4" stroke-linecap="butt"/>
 </svg>
